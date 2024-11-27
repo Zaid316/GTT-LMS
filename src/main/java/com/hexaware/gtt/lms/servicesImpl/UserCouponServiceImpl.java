@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.hexaware.gtt.lms.dto.CouponGenerationDto;
 import com.hexaware.gtt.lms.entities.Coupons;
 import com.hexaware.gtt.lms.entities.UserCoupons;
 import com.hexaware.gtt.lms.entities.Users;
@@ -22,17 +23,20 @@ public class UserCouponServiceImpl implements UserCouponService {
     private UserRepository userRepository;
     private CouponRepository couponRepository;
     
-    public UserCoupons generateCoupon(UUID couponId, UUID u_id) {
+    public UserCoupons generateCoupon(CouponGenerationDto couponGenerationDto) {
         String couponCode;
+        UUID couponId=couponGenerationDto.getCouponId();
+        UUID u_id=couponGenerationDto.getuId();
        Coupons coupon = couponRepository.findById(couponId).orElse(null);
        Users user = userRepository.findById(u_id).orElse(null);
-        String generatedCouponCode;
+
         do {
         	couponCode = generateRandomCouponCode(6);
         } while (userCouponRepository.existsById(couponCode));
          UserCoupons newCoupon = new UserCoupons(couponCode, coupon,user , java.time.LocalDateTime.now(), UserCouponStatus.ACTIVE, java.time.LocalDateTime.now(), java.time.LocalDateTime.now());
-        return newCoupon;
-    }
+        return userCouponRepository.save(newCoupon);
+        
+     }
  
 	public boolean redeemCoupon(String couponCode) {
 //        String coupon;
