@@ -11,7 +11,4 @@ public class CouponController {
 	private ModelMapper modelMapper;
 	private UserCouponServiceImpl userCouponServiceImpl;
 	
-	public RepongenerateCoupon(CouponGenerateDto couponGenerateDto) {
-		
-	}
 }
