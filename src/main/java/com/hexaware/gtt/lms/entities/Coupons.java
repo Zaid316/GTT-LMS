@@ -23,7 +23,6 @@ public class Coupons {
 	private String couponTitle;
 	private String couponDescription;
 	private int validity;
-	private String couponCode;
 	private int benefits;
  
 	private boolean status;
@@ -67,14 +66,6 @@ public class Coupons {
  
 	public void setValidity(int validity) {
 		this.validity = validity;
-	}
- 
-	public String getCouponCode() {
-		return couponCode;
-	}
- 
-	public void setCouponCode(String couponCode) {
-		this.couponCode = couponCode;
 	}
  
 	public int getBenefits() {

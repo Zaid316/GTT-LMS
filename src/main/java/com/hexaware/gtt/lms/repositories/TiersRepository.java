@@ -13,5 +13,6 @@ import com.hexaware.gtt.lms.entities.Tiers;
 public interface TiersRepository extends JpaRepository<Tiers, UUID> {
 	
 	public List<Tiers> getByPartner(Partner partner);
+	float getCouponProbablityByTierId(UUID TierId);
 
 }

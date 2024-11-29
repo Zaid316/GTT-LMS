@@ -43,7 +43,7 @@ public class UserCoupons {
 	}
 
 	public UserCoupons(String couponCode, Coupons coupons, Users users, LocalDateTime issuedOn, UserCouponStatus status,
-			LocalDateTime expiry, LocalDateTime couponUsedDate) {
+			LocalDateTime expiry) {
 		super();
 		this.couponCode = couponCode;
 		this.coupons = coupons;
@@ -51,7 +51,6 @@ public class UserCoupons {
 		this.issuedOn = issuedOn;
 		this.status = status;
 		this.expiry = expiry;
-		this.couponUsedDate = couponUsedDate;
 	}
 
 	public String getCouponCode() {
