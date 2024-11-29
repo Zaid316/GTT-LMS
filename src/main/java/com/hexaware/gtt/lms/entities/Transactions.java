@@ -24,16 +24,16 @@ public class Transactions {
 
     @ManyToOne
     @JoinColumn(name = "u_id")
-    private Users user;
+    private Users users;
 
     private long paymentId;
 
     @ManyToOne
     @JoinColumn(name = "coupon_id")
-    private Coupons coupon;
+    private Coupons coupons;
 
     @Enumerated(EnumType.STRING)
-    private TransType Type;
+    private TransType transactionType;
 
     private int pointsGainedOrLost;
     private double amount;
@@ -49,12 +49,12 @@ public class Transactions {
         this.transId = transId;
     }
 
-    public Users getUser() {
-        return user;
+    public Users getUsers() {
+        return users;
     }
 
-    public void setUser(Users user) {
-        this.user = user;
+    public void setUsers(Users users) {
+        this.users = users;
     }
 
     public long getPaymentId() {
@@ -65,20 +65,20 @@ public class Transactions {
         this.paymentId = paymentId;
     }
 
-    public Coupons getCoupon() {
-        return coupon;
+    public Coupons getCoupons() {
+        return coupons;
     }
 
-    public void setCoupon(Coupons coupon) {
-        this.coupon = coupon;
+    public void setCoupons(Coupons coupons) {
+        this.coupons = coupons;
     }
 
-    public TransType getType() {
-        return Type;
+    public TransType getTransactionType() {
+        return transactionType;
     }
 
-    public void setType(TransType Type) {
-        this.Type = Type;
+    public void setTransactionType(TransType transactionType) {
+        this.transactionType = transactionType;
     }
 
     public int getPointsGainedOrLost() {

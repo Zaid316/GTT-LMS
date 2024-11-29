@@ -22,11 +22,11 @@ public class Users {
 
     @ManyToOne
     @JoinColumn(name = "partner_id", nullable = false, updatable = false)
-    private Partner partner_id;
+    private Partner partner;
 
     @ManyToOne
     @JoinColumn(name = "tier_id", nullable = false, updatable = false)
-    private Tiers tier_id;
+    private Tiers tiers;
 
     private int totalPoints;
 
@@ -51,20 +51,20 @@ public class Users {
         this.userId = userId;
     }
 
-    public Partner getPartner_id() {
-        return partner_id;
+    public Partner getPartner() {
+        return partner;
     }
 
-    public void setPartner_id(Partner partner_id) {
-        this.partner_id = partner_id;
+    public void setPartner(Partner partner) {
+        this.partner = partner;
     }
 
-    public Tiers getTier_id() {
-        return tier_id;
+    public Tiers getTiers() {
+        return tiers;
     }
 
-    public void setTier_id(Tiers tier_id) {
-        this.tier_id = tier_id;
+    public void setTiers(Tiers tiers) {
+        this.tiers = tiers;
     }
 
     public int getTotalPoints() {

@@ -1,30 +1,31 @@
-package com.hexaware.gtt.lms.entities;
+package com.hexaware.gtt.lms.dto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 
-@Entity
-public class Partner {
+public class PartnerDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID partnerId;
-
+    
+    @NotNull
     private String partnerName;
+    
+    @Email 
+    @NotNull
     private String email;
+    
+    @NotNull
     private String password;
 
-    @Column(updatable = false)
+    
     private final LocalDateTime dateJoined = LocalDateTime.now();
 
-    private boolean status;  
+    private boolean status;
     
+    @NotNull(message = "phone number should not be empty")
     private Long contact;
     
 
@@ -37,7 +38,8 @@ public class Partner {
 		contact = cont;
 	}
 
-	public UUID getPartnerId() {
+
+    public UUID getPartnerId() {
         return partnerId;
     }
 
@@ -80,5 +82,4 @@ public class Partner {
     public void setStatus(boolean status) {
         this.status = status;
     }
-
 }

@@ -7,7 +7,7 @@ import com.hexaware.gtt.lms.entities.Tiers;
 public class UserDto {
 
     private long userId;
-    private Tiers tier_id;
+    private Tiers tiers;
     private int totalPoints;
     private LocalDateTime expiry;
 
@@ -19,12 +19,12 @@ public class UserDto {
         this.userId = userId;
     }
 
-    public Tiers getTier_id() {
-        return tier_id;
+    public Tiers getTiers() {
+        return tiers;
     }
 
-    public void setTier_id(Tiers tier_id) {
-        this.tier_id = tier_id;
+    public void setTiers(Tiers tiers) {
+        this.tiers = tiers;
     }
 
     public int getTotalPoints() {

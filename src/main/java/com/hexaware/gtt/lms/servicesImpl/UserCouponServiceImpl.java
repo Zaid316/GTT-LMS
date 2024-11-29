@@ -41,8 +41,8 @@ public class UserCouponServiceImpl implements UserCouponService {
         
      }
 
-    
-    private String generateRandomCouponCode(int length) {
+    @Override
+    public String generateRandomCouponCode(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random = new Random();
         StringBuilder couponCode = new StringBuilder(length);
@@ -60,9 +60,9 @@ public class UserCouponServiceImpl implements UserCouponService {
 //        }
 //    }
 
-
+    @Override
     public String redeemCoupon(String couponCode, UUID user_id) {
-        List<UserCoupons> userCoupons = userCouponRepository.findCouponByUserId_UId(user_id);
+        List<UserCoupons> userCoupons = userCouponRepository.findCouponByUsers_UId(user_id);
         for (UserCoupons coupon : userCoupons ) {
             if (coupon.getCouponCode().equals(couponCode) && coupon.getStatus() == UserCouponStatus.ACTIVE){
                     coupon.setStatus(UserCouponStatus.USED);

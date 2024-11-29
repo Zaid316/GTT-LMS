@@ -18,11 +18,12 @@ public class Coupons {
  
 	@ManyToOne
 	@JoinColumn(name = "tier_id")
-	private Tiers tier_id;
+	private Tiers tiers;
  
 	private String couponTitle;
 	private String couponDescription;
 	private int validity;
+	private String couponCode;
 	private int benefits;
  
 	private boolean status;
@@ -36,12 +37,12 @@ public class Coupons {
 		this.couponId = couponId;
 	}
  
-	public Tiers getTier_id() {
-		return tier_id;
+	public Tiers getTiers() {
+		return tiers;
 	}
  
-	public void setTier_id(Tiers tier_id) {
-		this.tier_id = tier_id;
+	public void setTiers(Tiers tiers) {
+		this.tiers = tiers;
 	}
  
 	public String getCouponTitle() {
@@ -68,6 +69,13 @@ public class Coupons {
 		this.validity = validity;
 	}
  
+	public String getCouponCode() {
+		return couponCode;
+	}
+ 
+	public void setCouponCode(String couponCode) {
+		this.couponCode = couponCode;
+	}
  
 	public int getBenefits() {
 		return benefits;
@@ -84,7 +92,5 @@ public class Coupons {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	
-	
  
 }
