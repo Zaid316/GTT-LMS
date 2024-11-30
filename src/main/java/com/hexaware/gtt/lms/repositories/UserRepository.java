@@ -12,10 +12,8 @@ import com.hexaware.gtt.lms.entities.Users;
 
 @Repository
 public interface UserRepository extends JpaRepository<Users, UUID> {
-	Tiers getTiersByUId(UUID uId);
-//	@Query("SELECT t FROM Tiers t WHERE t.uId = :uId")Tiers getTiersById(@Param("uId") UUID uId);
-
-	
+	@Query("SELECT t.tierId FROM Users u JOIN u.tiers t WHERE u.uId = :uId")
+	UUID getTierByUId(@Param("uId") UUID uId);
 	@Query("SELECT u.uId FROM Users u WHERE u.partner.id = :partnerId AND u.userId = :userId")
 	UUID findUIdByPartnerIdAndUserId(@Param("partnerId") UUID partnerId, @Param("userId") Long userId);
 }
