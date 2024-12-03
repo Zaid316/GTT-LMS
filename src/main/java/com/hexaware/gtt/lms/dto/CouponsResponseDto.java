@@ -11,7 +11,8 @@ public class CouponsResponseDto {
 		private String couponTitle;
 		private String couponDescription;
 		private int validity;
-		private int benefits;
+		private double percentage;
+		private double maxLimit;
 	 
 		private boolean status;
 
@@ -61,15 +62,24 @@ public class CouponsResponseDto {
 	    }
 
 
-	    public int getBenefits() {
-	        return benefits;
-	    }
 
-	    public void setBenefits(int benefits) {
-	        this.benefits = benefits;
-	    }
+	    public double getPercentage() {
+			return percentage;
+		}
 
-	    public boolean isStatus() {
+		public void setPercentage(double percentage) {
+			this.percentage = percentage;
+		}
+
+		public double getMaxLimit() {
+			return maxLimit;
+		}
+
+		public void setMaxLimit(double maxLimit) {
+			this.maxLimit = maxLimit;
+		}
+
+		public boolean isStatus() {
 	        return status;
 	    }
 
