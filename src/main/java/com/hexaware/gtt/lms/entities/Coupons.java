@@ -1,5 +1,5 @@
 package com.hexaware.gtt.lms.entities;
-
+ 
 import java.util.UUID;
  
 import jakarta.persistence.Entity;
@@ -23,7 +23,8 @@ public class Coupons {
 	private String couponTitle;
 	private String couponDescription;
 	private int validity;
-	private int benefits;
+	private double maxLimit;
+	private double percentage;
  
 	private boolean status;
  
@@ -68,12 +69,20 @@ public class Coupons {
 		this.validity = validity;
 	}
  
-	public int getBenefits() {
-		return benefits;
+	public double getMaxLimit() {
+		return maxLimit;
 	}
  
-	public void setBenefits(int benefits) {
-		this.benefits = benefits;
+	public void setMaxLimit(double maxLimit) {
+		this.maxLimit = maxLimit;
+	}
+ 
+	public double getPercentage() {
+		return percentage;
+	}
+ 
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
 	}
  
 	public boolean getStatus() {
@@ -84,4 +93,26 @@ public class Coupons {
 		this.status = status;
 	}
  
+	public Coupons(UUID couponId, Tiers tiers, String couponTitle, String couponDescription, int validity,
+			double maxLimit, double percentage, boolean status) {
+		super();
+		this.couponId = couponId;
+		this.tiers = tiers;
+		this.couponTitle = couponTitle;
+		this.couponDescription = couponDescription;
+		this.validity = validity;
+		this.maxLimit = maxLimit;
+		this.percentage = percentage;
+		this.status = status;
+	}
+
+	public Coupons() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+ 
 }
+ 
+ 
