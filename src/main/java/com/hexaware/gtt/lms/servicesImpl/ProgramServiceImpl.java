@@ -6,9 +6,12 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.gtt.lms.dto.ProgramDto;
 import com.hexaware.gtt.lms.dto.ProgramRequestDto;
 import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.entities.Program;
+import com.hexaware.gtt.lms.exception.ResourceDeletionException;
+import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
 import com.hexaware.gtt.lms.repositories.PartnerRepository;
 import com.hexaware.gtt.lms.repositories.ProgramRepository;
 import com.hexaware.gtt.lms.services.ProgramService;
@@ -27,7 +30,6 @@ public class ProgramServiceImpl implements ProgramService {
 		program.setProgramName(programRequest.getProgramName());
 		Partner partner = partnerRepository.findById(programRequest.getPartnerId()).orElse(null);
 		program.setPartner(partner);
-		program.setStatus(false);
 		return programRepository.save(program);
 
 	}
@@ -42,4 +44,39 @@ public class ProgramServiceImpl implements ProgramService {
 		 Partner partner = partnerRepository.findById(partnerId).orElseGet(null);
 	        return this.programRepository.findAllProgramByPartner(partner);
 	    }
+	
+	@Override
+	public Program updateProgram(ProgramDto programDto) throws ResourceNotFoundException{
+		Program prg=this.programRepository.findById(programDto.getProgramId()).orElse(null);
+		if(prg==null)
+		{
+			throw new ResourceNotFoundException("Program", "email", programDto.getProgramId());
+		}
+		else {
+			prg.setProgramName(programDto.getProgramName());
+			prg.setStartDate(programDto.getEndDate());
+			prg.setEndDate(programDto.getEndDate());
+			prg.setStatus(programDto.isStatus());
+			Program savedProgram = programRepository.save(prg);
+			return savedProgram;
+		}
+	}
+ 
+	@Override
+	public boolean deleteProgram(UUID id) throws ResourceDeletionException{
+		Program prg=programRepository.findById(id).get();
+		if(prg.equals(null))
+		{
+			throw new ResourceDeletionException("Program "+id+" not found to delete");
+		}
+		programRepository.deleteById(id);		
+		if(programRepository.existsById(id))
+			{
+			return false;
+			}
+		else 
+		{
+			return true;
+		}
+	}
 }

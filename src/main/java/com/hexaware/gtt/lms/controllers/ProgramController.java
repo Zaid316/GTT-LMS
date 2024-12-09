@@ -8,17 +8,25 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hexaware.gtt.lms.dto.PartnerDto;
 import com.hexaware.gtt.lms.dto.ProgramDto;
 import com.hexaware.gtt.lms.dto.ProgramRequestDto;
+import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.entities.Program;
+import com.hexaware.gtt.lms.exception.ResourceDeletionException;
+import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
 import com.hexaware.gtt.lms.services.ProgramService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/lms/programs")
@@ -64,5 +72,33 @@ public class ProgramController {
 			
 			
 		}
+		
+		@PutMapping("/updateProgram")
+		public ResponseEntity<?> updatePartner(@Valid @RequestBody ProgramDto programDto){
+			try {
+				Program program = programService.updateProgram(programDto);
+				ProgramDto prgDto = modelMapper.map(program, ProgramDto.class);
+				return ResponseEntity.ok(prgDto);
+			}catch(ResourceNotFoundException e){
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+			}
+		}
+		
+		
+		@DeleteMapping("/deleteProgramById")
+		public ResponseEntity<?> deleteProgram(@RequestParam("id") UUID id){
+			try {
+				boolean status = programService.deleteProgram(id);
+				if(status) {
+					return ResponseEntity.ok("Successfully deleted program");
+				}
+				else {
+					return ResponseEntity.ok("Unsuccessfull deletion attempt");
+				}
+			}catch(ResourceDeletionException e) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+			}
+		}
+
 		
 }
