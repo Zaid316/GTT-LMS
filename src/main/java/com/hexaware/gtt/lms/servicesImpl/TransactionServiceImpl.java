@@ -39,7 +39,6 @@ import com.hexaware.gtt.lms.entities.Transactions;
 import com.hexaware.gtt.lms.entities.UserCoupons;
 
 import com.hexaware.gtt.lms.entities.Users;
-
 import com.hexaware.gtt.lms.repositories.CouponRepository;
 
 import com.hexaware.gtt.lms.repositories.TiersRepository;
@@ -201,6 +200,101 @@ public class TransactionServiceImpl implements TransactionService{
  
  
 	}
+	
+	public Users userTierUpdationTransaction(Users settedUser, TransactionRequestDto transactionRequestDto, UUID uId) throws Exception {
+		List<Tiers> tiersList = tiersService.getallTiersbyPartnerId(settedUser.getPartner().getPartnerId());
+
+		tiersList.sort(Comparator.comparingDouble(Tiers::getTriggerAmount));
+
+		if(settedUser.getTiers().getTriggerAmount()==0) {
+
+			Tiers myTier = settedUser.getTiers();
+
+			for(Tiers tier: tiersList) {
+
+				if(settedUser.getTierTransactionAmount()>=tier.getTriggerAmount()) {
+
+					myTier = tier;
+				}
+
+				else {					
+
+					break;
+
+				}				
+
+			}	
+
+			if(myTier.getTierId()!= settedUser.getTiers().getTierId()) {
+
+				System.out.println("myTier2: \n"+myTier);
+
+				 Users savedUser = userService.updateUsersTier(uId, myTier);
+
+				 savedUser.setTierTransactionAmount(0);	
+
+				 savedUser.setTierSetDate(LocalDateTime.now());
+
+				 savedUser.setExpiry(LocalDateTime.now().plus(myTier.getTriggerDuration(), ChronoUnit.MONTHS));
+
+				userRepository.save(savedUser);
+
+				return savedUser;
+
+			}
+
+		}
+
+		else {
+
+			Tiers myTier = settedUser.getTiers();
+
+			for(Tiers tier: tiersList) {
+
+				if(settedUser.getTierTransactionAmount()>=tier.getTriggerAmount()) {
+					myTier = tier;
+				}
+
+				else {
+
+					break;
+
+					}
+
+				}
+
+			if(myTier.getTierId()!=settedUser.getTiers().getTierId()) {
+
+				if(settedUser.getExpiry()!= LocalDateTime.now() && myTier.getTriggerAmount()!=0) {
+
+				Users savedUser = userService.updateUsersTier(uId, myTier);
+				savedUser.setTierTransactionAmount(0);	
+				savedUser.setTierSetDate(LocalDateTime.now());
+				savedUser.setExpiry(LocalDateTime.now().plus(myTier.getTriggerDuration(), ChronoUnit.MONTHS));
+				Users finalUser = userRepository.save(savedUser);
+				return finalUser;
+
+				}else if(myTier.getTriggerAmount()==0 && settedUser.getExpiry()== LocalDateTime.now()) {
+					Users savedUser = userService.updateUsersTier(uId, myTier);
+					savedUser.setTierTransactionAmount(0);	
+					savedUser.setTierSetDate(LocalDateTime.now());
+					savedUser.setExpiry(null);
+					Users finalUser = userRepository.save(savedUser);
+					return finalUser;					
+
+				}
+			}
+
+			else {
+				settedUser.setTierTransactionAmount(settedUser.getTierTransactionAmount()+transactionRequestDto.getAmount());
+				Users finalUser = userRepository.save(settedUser);
+				return finalUser;
+			}
+
+		}
+		return settedUser;
+
+	}
  
 	@Override
 
@@ -213,147 +307,17 @@ public class TransactionServiceImpl implements TransactionService{
 //					double pointsGained, double pointsSpent, double amount)
 
 		UUID uId=userRepository.findUIdByPartnerIdAndUserId(transactionRequestDto.getPartnerId(),transactionRequestDto.getUserId());
-
 		Users user=userRepository.findByUId(uId);
-
 		user.setTotalPoints(user.getTotalPoints()+transactionRequestDto.getPointsGained()-transactionRequestDto.getPointsSpent());
-
 		//Tier Updation for user
-
 		user.setTotalTransactionAmount(user.getTotalTransactionAmount()+transactionRequestDto.getAmount());
-
 		user.setTierTransactionAmount(user.getTierTransactionAmount()+transactionRequestDto.getAmount());
-
 		Users settedUser = userRepository.save(user);
-
-		List<Tiers> tiersList = tiersService.getallTiersbyPartnerId(user.getPartner().getPartnerId());
-
-		tiersList.sort(Comparator.comparingDouble(Tiers::getTriggerAmount));
-
-		if(user.getTiers().getTriggerAmount()==0) {
-
-			Tiers myTier = user.getTiers();
-
-			for(Tiers tier: tiersList) {
-
-				if(settedUser.getTierTransactionAmount()>=tier.getTriggerAmount()) {
-
-					//System.out.println(settedUser.getTierTransactionAmount());
-
-					myTier = tier;
-
-					//System.out.println("ifMyTier \n"+myTier);
-
-				}
-
-				else {					
-
-					break;
-
-				}				
-
-			}	
-
-			if(myTier.getTierId()!= user.getTiers().getTierId()) {
-
-				System.out.println("myTier2: \n"+myTier);
-
-				 Users savedUser = userService.updateUsersTier(uId, myTier);
-
-				 System.out.println("hello");
-
-				 savedUser.setTierTransactionAmount(0);	
-
-				 savedUser.setTierSetDate(LocalDateTime.now());
-
-				 savedUser.setExpiry(LocalDateTime.now().plus(myTier.getTriggerDuration(), ChronoUnit.MONTHS));
-
-				userRepository.save(savedUser);
-
-				transaction.setUsers(savedUser);
-
-			}
-
-		}
-
-		else {
-
-			Tiers myTier = user.getTiers();
-
-			for(Tiers tier: tiersList) {
-
-				if(user.getTierTransactionAmount()>=tier.getTriggerAmount()) {
-
-					//System.out.println(settedUser.getTierTransactionAmount());
-
-					myTier = tier;
-
-					//System.out.println("ifMyTier \n"+myTier);
-
-				}
-
-				else {
-
-					break;
-
-					}
-
-				}
-
-			if(myTier.getTierId()!=user.getTiers().getTierId()) {
-
-				if(user.getExpiry()!= LocalDateTime.now() && myTier.getTriggerAmount()!=0) {
-
-				Users savedUser = userService.updateUsersTier(uId, myTier);
-
-				savedUser.setTierTransactionAmount(0);	
-
-				savedUser.setTierSetDate(LocalDateTime.now());
-
-				savedUser.setExpiry(LocalDateTime.now().plus(myTier.getTriggerDuration(), ChronoUnit.MONTHS));
-
-				Users finalUser = userRepository.save(savedUser);
-
-				transaction.setUsers(finalUser);
-
-				}else if(myTier.getTriggerAmount()==0 && user.getExpiry()== LocalDateTime.now()) {
-
-					Users savedUser = userService.updateUsersTier(uId, myTier);
-
-					savedUser.setTierTransactionAmount(0);	
-
-					savedUser.setTierSetDate(LocalDateTime.now());
-
-					Users finalUser = userRepository.save(savedUser);
-
-					transaction.setUsers(finalUser);
-
-					savedUser.setExpiry(null);
-
-				}
-
-			}
-
-			else {
-
-				user.setTierTransactionAmount(user.getTierTransactionAmount()+transactionRequestDto.getAmount());
-
-				Users finalUser = userRepository.save(user);
-
-				transaction.setUsers(finalUser);
-
-			}
-
-
-		}
-
-
+		Users finalUser = userTierUpdationTransaction(settedUser,transactionRequestDto,uId);
+		transaction.setUsers(finalUser);
 		transaction.setCoupons(couponRepository.getById(transactionRequestDto.getCouponId()));
-
 		transactionRepository.save(transaction);
-
-		TransactionDto transactionDto =  modelMapper.map(transaction, TransactionDto.class); 
-
+		TransactionDto transactionDto =  modelMapper.map(transaction, TransactionDto.class);
 		return transactionDto;
 
 	}
