@@ -36,7 +36,7 @@ public class Transactions {
     private TransType transactionType;
 
     private double pointsGained;
-    private double pointsSpent;
+    private double pointsSpent; 
     private double amount;
 
     @Column(updatable = false)

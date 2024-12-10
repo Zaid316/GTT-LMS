@@ -15,17 +15,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
-import com.hexaware.gtt.lms.dto.OffersDto;
-import com.hexaware.gtt.lms.dto.OffersResponseDto;
+import com.hexaware.gtt.lms.dto.QuitQRegistrationDto;
 import com.hexaware.gtt.lms.dto.QuitQResponseDto;
 import com.hexaware.gtt.lms.dto.UserDto;
 import com.hexaware.gtt.lms.dto.UserResponseDto;
-import com.hexaware.gtt.lms.entities.Offers;
+import com.hexaware.gtt.lms.entities.Partner;
+import com.hexaware.gtt.lms.entities.Tiers;
 import com.hexaware.gtt.lms.entities.Users;
 import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
+import com.hexaware.gtt.lms.repositories.PartnerRepository;
+import com.hexaware.gtt.lms.repositories.TiersRepository;
+import com.hexaware.gtt.lms.repositories.UserRepository;
 import com.hexaware.gtt.lms.services.UserService;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("api/v1/lms/users")
@@ -39,15 +42,24 @@ public class UsersController {
 
 	@Autowired
     private RestTemplate restTemplate;
+
+	@Autowired
+	private PartnerRepository partnerRepository;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private TiersRepository tierRepository;
 	
 	@PostMapping("/createUser")
-	public ResponseEntity<UserResponseDto> createUser(@RequestBody UserDto userDto) throws ResourceNotFoundException{
-		
-	    Users user=userService.createUsers(userDto);
+	public ResponseEntity<UserResponseDto> createUser(@RequestBody QuitQRegistrationDto quitQRegistrationDto) throws ResourceNotFoundException{
+	    Users user=userService.createUsers(quitQRegistrationDto);
 	    UserResponseDto userResponseDto=modelMapper.map(user, UserResponseDto.class);
 	    return ResponseEntity.ok(userResponseDto);
 	    
 	}
+
 	
 	@GetMapping("/getUsers")
 	public ResponseEntity<List<UserResponseDto>> getUsers(){

@@ -12,6 +12,9 @@ public interface PartnerRepository extends JpaRepository<Partner, UUID> {
 
 	public Partner findByEmail(String email);
 
+	public Partner findByPartnerId(UUID partnerId);
+
+
 	public Object findByContact(Long contact);
 	
 	public List<Partner> findPartnerByStatus(boolean stat);
