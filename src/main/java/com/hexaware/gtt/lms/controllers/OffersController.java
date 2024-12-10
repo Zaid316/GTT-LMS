@@ -61,6 +61,17 @@ public class OffersController {
 		return ResponseEntity.ok(offerResponseDto);
 	}
 	
+	@GetMapping("/getOffersByProgramId")
+	public ResponseEntity<List<OffersResponseDto>> getOfferByProgramId(@RequestParam("program_id") UUID programId ) throws ResourceNotFoundException {
+		List<Offers> offersList = this.offersService.getOfferByProgramId(programId);
+		List<OffersResponseDto> offersResponseDtoList=new ArrayList<>();
+		for(Offers offer:offersList) {
+			OffersResponseDto offersResponseDto=this.modelMapper.map(offer, OffersResponseDto.class);
+			offersResponseDtoList.add(offersResponseDto);
+		}
+		return ResponseEntity.ok(offersResponseDtoList);
+	}
+	
 	@PutMapping("/updateOffers")
 	public ResponseEntity<OffersResponseDto> updateOffers(@RequestBody OffersDto offersDto,@RequestParam("offer_id") UUID offer_id) throws ResourceNotFoundException {
 		

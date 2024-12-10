@@ -84,6 +84,13 @@ public class CouponsServiceImpl implements CouponsService {
         return this.couponsRepository.findById(coupon_id)
             .orElseThrow(() -> new ResourceNotFoundException("Coupon", "id", coupon_id));
     }
+
+	@Override
+	public List<Coupons> getCouponsByProgramId(UUID programId) throws ResourceNotFoundException{
+		Program program = programRepository.findById(programId).orElseThrow(() -> new ResourceNotFoundException("Program", "id", programId));
+		return this.couponsRepository.findAllOffersByProgram(program);
+		
+	}
 }
  
  

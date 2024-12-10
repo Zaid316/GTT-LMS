@@ -9,14 +9,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.hexaware.gtt.lms.entities.Coupons;
+import com.hexaware.gtt.lms.entities.Program;
 @Repository
 public interface CouponRepository extends JpaRepository<Coupons, UUID>{
 	@Query(value = "SELECT coupon_id FROM coupons WHERE tier_id =:tierId", nativeQuery = true)
     List<UUID> findCouponsByTierId(@Param("tierId") UUID tierId);
 
 
-    static Coupons findByCouponId(UUID couponId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByCouponId'");
-    }
+
+
+	List<Coupons> findAllOffersByProgram(Program program);
 }

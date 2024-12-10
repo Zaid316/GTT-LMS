@@ -14,6 +14,7 @@ public interface CouponsService {
 	public Coupons updateCoupons(CouponsDto couponsDto,UUID coupon_id) throws ResourceNotFoundException;
 	public String deleteCoupons(UUID coupon_id) throws ResourceNotFoundException;
 	public Coupons getCouponsById(UUID coupon_id) throws ResourceNotFoundException;
+	public List<Coupons> getCouponsByProgramId(UUID programId) throws ResourceNotFoundException;
 }
  
  

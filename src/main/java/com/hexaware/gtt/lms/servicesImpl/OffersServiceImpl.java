@@ -84,5 +84,11 @@ public class OffersServiceImpl implements OffersService {
         return this.offersRepository.findById(offer_id)
             .orElseThrow(() -> new ResourceNotFoundException("Offer", "id", offer_id));
     }
+    
+    @Override
+    public List<Offers> getOfferByProgramId(UUID programId) throws ResourceNotFoundException {
+    	Program program = programRepository.findById(programId).orElseThrow(() -> new ResourceNotFoundException("Program", "id", programId));
+        return this.offersRepository.findAllOffersByProgram(program);
+    }
 }
  

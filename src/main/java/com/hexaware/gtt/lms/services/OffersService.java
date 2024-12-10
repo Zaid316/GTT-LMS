@@ -13,6 +13,7 @@ public interface OffersService {
 	public Offers updateOffers(OffersDto offersDto,UUID offer_id)throws ResourceNotFoundException;
 	public String deleteOffers(UUID offer_id)throws ResourceNotFoundException;
 	public Offers getOfferById(UUID offer_id)throws ResourceNotFoundException;
+	 public  List<Offers> getOfferByProgramId(UUID programId) throws ResourceNotFoundException;
 }
  
  
