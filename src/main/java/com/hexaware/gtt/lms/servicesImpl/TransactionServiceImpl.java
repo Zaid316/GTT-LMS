@@ -177,24 +177,18 @@ public class TransactionServiceImpl implements TransactionService{
 		userValidationDto.setCouponCode(userCouponRequestDto.getCouponCode());
 
 		userValidationDto.setuId(userCouponRequestDto.getuId());
-
+		
 		if(userCouponService.validateCoupon(userValidationDto)){
+			if(discountedAmt<=maxLimit || maxLimit <=0){
+				userCouponResponseDto.setAmountDiscounted(discountedAmt);
+				userCouponResponseDto.setFinalAmount(userCouponRequestDto.getAmount() - discountedAmt);
+			}
+			else {
+				userCouponResponseDto.setAmountDiscounted(maxLimit);
+				userCouponResponseDto.setFinalAmount(userCouponRequestDto.getAmount() - maxLimit);
 
-			if(discountedAmt<=maxLimit){
-
-			userCouponResponseDto.setAmountDiscounted(discountedAmt);
-
-			userCouponResponseDto.setFinalAmount(userCouponRequestDto.getAmount() - discountedAmt);
-
+			}
 		}
-
-		else{
-
-			userCouponResponseDto.setAmountDiscounted(maxLimit);
-
-			userCouponResponseDto.setFinalAmount(userCouponRequestDto.getAmount() - maxLimit);
- 
-		}}
 
 		return userCouponResponseDto;
  

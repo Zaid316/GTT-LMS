@@ -22,6 +22,7 @@ import com.hexaware.gtt.lms.dto.PartnerDto;
 import com.hexaware.gtt.lms.dto.TiersDto;
 import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.entities.Tiers;
+import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
 import com.hexaware.gtt.lms.services.TiersService;
 
 @RestController
@@ -39,7 +40,8 @@ public class TiersController {
 		this.modelMapper = modelMapper;
 	}
 	
-	@PostMapping("/createTiers")
+	//http://localhost:8080/api/v1/lms/tiers/createTier
+	@PostMapping("/createTier")
 	public ResponseEntity<TiersDto> createTiers(@RequestBody TiersDto tiersDto)
 	{
 		Tiers tiers=this.tiersService.createTier(tiersDto);
@@ -48,7 +50,8 @@ public class TiersController {
 		return ResponseEntity.ok(tierDto);
 	}
 	
-	@PostMapping("/createFreeTiers")
+	//http://localhost:8080/api/v1/lms/tiers/createFreeTier
+	@PostMapping("/createFreeTier")
 	public ResponseEntity<TiersDto> createFreeTiers(@RequestBody FreeTiersDto frdto)
 	{
 		Tiers tiers=this.tiersService.createFreeTier(frdto);
@@ -57,7 +60,8 @@ public class TiersController {
 		return ResponseEntity.ok(tierDto);
 	}
 	
-	@DeleteMapping("/deleteTiersbyId")
+	//http://localhost:8080/api/v1/lms/tiers/deleteTierbyId?tierId=c8682ca3-c767-404c-8057-9de6c48747fb
+	@DeleteMapping("/deleteTierbyId")
 	public ResponseEntity<?> deleteTiers(@RequestParam("tierId") UUID tierId)
 	{
 		boolean delitionStatus = this.tiersService.deleteTier(tierId);
@@ -70,7 +74,8 @@ public class TiersController {
 		
 	}
 	
-	@GetMapping("/getAllTiers")
+	//http://localhost:8080/api/v1/lms/tiers/getAllPartnerTiers?id=0100761c-0755-4abd-ba10-b57ba721a351
+	@GetMapping("/getAllPartnerTiers")
 	public ResponseEntity<?> getAllPartnerTiers(@RequestParam("id") UUID partner_id){
 		try {
 			List<Tiers> tiersLst = this.tiersService.getallTiersbyPartnerId(partner_id);
@@ -85,6 +90,28 @@ public class TiersController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No tiers for this partner");
 		}
 		
+	}
+	
+	//http://localhost:8080/api/v1/lms/tiers/getTierByTierId?id=7d14ad27-e639-4a9f-80ba-bbcdd31b2ae5
+	@GetMapping("/getTierByTierId")
+	public ResponseEntity<?> getTierbyTierId(@RequestParam("id")UUID id) throws Exception
+	{
+		try {
+			Tiers tier=this.tiersService.findTierbyTierId(id);
+			TiersDto tierdto=this.modelMapper.map(tier, TiersDto.class);
+			tierdto.setPartner_id(tier.getPartner().getPartnerId());
+			return ResponseEntity.ok(tierdto);
+			
+		}
+		
+		catch(ResourceNotFoundException e)
+		{
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("The tier is not available");
+		}
+		catch(Exception e)
+		{
+			return ResponseEntity.ok(e.getMessage());
+		}
 	}
  
 }

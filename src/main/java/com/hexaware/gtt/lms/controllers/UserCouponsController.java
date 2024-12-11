@@ -26,7 +26,7 @@ import com.hexaware.gtt.lms.services.UserCouponService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/lms/api/v1/userCoupons/")
+@RequestMapping("/lms/api/v1/userCoupons")
 @ResponseBody
 public class UserCouponsController {
 	private UserCouponService userCouponService;
@@ -38,7 +38,8 @@ public class UserCouponsController {
 		this.modelmapper = modelmapper;
 	}	
 	
-	@PostMapping("generateCoupon/")
+	//http://localhost:8080/lms/api/v1/userCoupons/generateCoupon
+	@PostMapping("/generateCoupon")
 	public ResponseEntity<?> generateCoupon(@Valid @RequestBody UserPartnerDto userPartnerDto)
 	{
 		
@@ -66,7 +67,8 @@ public class UserCouponsController {
 		}		
 	}
 	
-	@PostMapping("validate")
+	//http://localhost:8080/lms/api/v1/userCoupons/validate
+	@PostMapping("/validate")
 	public ResponseEntity<?> validateCoupon(@RequestBody UserValidationDto userValidationDto) {
 		boolean isValid = userCouponService.validateCoupon(userValidationDto);
 		if (isValid){
@@ -77,7 +79,8 @@ public class UserCouponsController {
 
 	}
 
-	@PostMapping("redeem")
+	//http://localhost:8080/lms/api/v1/userCoupons/redeem
+	@PostMapping("/redeem")
 	public ResponseEntity<?> redeemCoupon(@RequestBody UserValidationDto userValidationDto) {
 		boolean isValid = userCouponService.redeemCoupon(userValidationDto);
 		if (isValid){
@@ -88,7 +91,8 @@ public class UserCouponsController {
 
 	}
 	
-	@GetMapping("getActiveCoupons/")
+	//http://localhost:8080/lms/api/v1/userCoupons/getActiveCoupons?uId=cd2b00bb-3a35-4e6d-8950-b083fada5a03
+	@GetMapping("/getAllUserCoupons")
 	public ResponseEntity<?> listOfActiveCoupons(@RequestParam("uId") UUID uId){
 		List<UserCoupons> userCoupons=userCouponService.listOfActiveCoupons(uId);
 		List<UserCouponDto> userCouponDtoList=new ArrayList<>();

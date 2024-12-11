@@ -86,6 +86,11 @@ public class TiersServiceImpl implements TiersService {
 		}
 	}
 	
+	public Tiers findTierbyTierId(UUID id) throws Exception
+	{
+		Tiers tier=this.tiersRepository.findById(id).get();
+		return tier;
+	}
 	
 	
 	

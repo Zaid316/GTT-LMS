@@ -39,7 +39,8 @@ public class CouponsController {
 		this.modelMapper = modelMapper;
 	}
 	
-	@PostMapping("/createCoupons")
+	//http://localhost:8080/api/v1/lms/coupons/createCoupon
+	@PostMapping("/createCoupon")
 	public ResponseEntity<CouponsResponseDto> createCoupons(@RequestBody CouponsDto couponsDto) throws ResourceNotFoundException {
 		Coupons coupons=this.couponsService.createCoupons(couponsDto);
 		CouponsResponseDto couponResponseDto=this.modelMapper.map(coupons,CouponsResponseDto.class);
@@ -48,6 +49,7 @@ public class CouponsController {
 		return ResponseEntity.ok(couponResponseDto);
 	}
 	
+	//http://localhost:8080/api/v1/lms/coupons/getCoupons
 	@GetMapping("/getCoupons")
 	public ResponseEntity<List<CouponsResponseDto>> getCoupons(){
 		List<Coupons> couponsList=this.couponsService.getCoupons();
@@ -63,6 +65,7 @@ public class CouponsController {
 		
 	}
 	
+	//http://localhost:8080/api/v1/lms/coupons/getCouponById?coupon_id=3b6b1020-2004-4118-906a-52566fcfc27d
 	@GetMapping("/getCouponById")
 	public ResponseEntity<CouponsResponseDto> getCouponsById(@RequestParam("coupon_id") UUID coupon_id) throws ResourceNotFoundException{
 		Coupons coupon = this.couponsService.getCouponsById(coupon_id);
@@ -70,6 +73,8 @@ public class CouponsController {
 		return ResponseEntity.ok(couponsResponseDto);
 	}
 	
+	
+	//http://localhost:8080/api/v1/lms/coupons/getCouponByProgramId?program_id=e5201b21-09ed-4858-a4b6-dd63ed7f8f4e
 	@GetMapping("/getCouponByProgramId")
 	public ResponseEntity<List<CouponsResponseDto>> getCouponsByProgramId(@RequestParam("program_id") UUID programId) throws ResourceNotFoundException{
 		List<Coupons> couponsList = this.couponsService.getCouponsByProgramId(programId);
@@ -83,14 +88,16 @@ public class CouponsController {
 		return ResponseEntity.ok(couponsResponseDtoList);
 	}
 	
-	@PutMapping("/putCoupons")
+	//http://localhost:8080/api/v1/lms/coupons/updateCoupon?coupon_id=3b6b1020-2004-4118-906a-52566fcfc27d
+	@PutMapping("/updateCoupon")
 	public ResponseEntity<CouponsResponseDto> updateCoupons(@RequestBody CouponsDto couponsDto,@RequestParam("coupon_id") UUID coupon_id) throws ResourceNotFoundException {
 		Coupons coupon=this.couponsService.updateCoupons(couponsDto,coupon_id);
 		CouponsResponseDto couponResponseDto=this.modelMapper.map(coupon, CouponsResponseDto.class);
 		return ResponseEntity.ok(couponResponseDto);
 	}
 	
-	@DeleteMapping("/deleteCoupons")
+	//http://localhost:8080/api/v1/lms/coupons/deleteCoupon?coupon_id=38ec2ce7-8fe0-4962-a535-a90b9f7485eb
+	@DeleteMapping("/deleteCoupon")
 	public ResponseEntity<String> deleteCoupons(@RequestParam("coupon_id") UUID coupon_id) throws ResourceNotFoundException{
 		String s = this.couponsService.deleteCoupons(coupon_id);
 		return ResponseEntity.ok(s);

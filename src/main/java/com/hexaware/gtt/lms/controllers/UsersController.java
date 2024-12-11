@@ -52,6 +52,7 @@ public class UsersController {
 	@Autowired
 	private TiersRepository tierRepository;
 	
+	//http://localhost:8080/api/v1/lms/users/createUser
 	@PostMapping("/createUser")
 	public ResponseEntity<?> createUser(@RequestBody QuitQRegistrationDto quitQRegistrationDto){ 
 	   try { 
@@ -65,7 +66,7 @@ public class UsersController {
 		 }	    
 	}
 
-	
+	//http://localhost:8080/api/v1/lms/users/getUsers
 	@GetMapping("/getUsers")
 	public ResponseEntity<List<UserResponseDto>> getUsers(){
 		List<Users> userList=userService.getUsers();
@@ -77,6 +78,7 @@ public class UsersController {
 		return ResponseEntity.ok(userResponseDtoList);
 	}
 
+	//http://localhost:8080/api/v1/lms/users/getUsers
 	@GetMapping("/getUserById")
 	public ResponseEntity<UserResponseDto> getUserById(@RequestParam("uId") UUID uid) throws ResourceNotFoundException{
 		Users user = this.userService.getUserById(uid);
@@ -87,6 +89,7 @@ public class UsersController {
 		return ResponseEntity.ok(userResponseDto);
 	}
 
+	//http://localhost:8080/api/v1/lms/users/getUserById?uId=fad0d750-f86f-42be-93d6-db56263eecac
 	@GetMapping("/getUserIdById")
 	public ResponseEntity<UserResponseDto>  getUserIdById(@RequestParam("uId") UUID uid) throws ResourceNotFoundException{
 		Users user = this.userService.getUserById(uid);
@@ -98,6 +101,7 @@ public class UsersController {
 	}
 
 	
+	//http://localhost:8080/api/v1/lms/users/updateUser?uId=fad0d750-f86f-42be-93d6-db56263eecac
 	@PutMapping("/updateUser")
    public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto usersDto,@RequestParam("uId") UUID u_id) throws ResourceNotFoundException {
 		
@@ -106,7 +110,8 @@ public class UsersController {
 		return ResponseEntity.ok(userResponseDto);
 	}
 		
-	@DeleteMapping("/deleteUsers")
+	//http://localhost:8080/api/v1/lms/users/deleteUser?uId=0bc80825-5a2c-4707-bf79-c1f71e8223c8
+	@DeleteMapping("/deleteUser")
 	public ResponseEntity<String> deleteUser(@RequestParam("uId") UUID u_id) throws ResourceNotFoundException {
 		String s = this.userService.deleteUser(u_id);
 		return ResponseEntity.ok(s);
