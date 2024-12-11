@@ -70,6 +70,7 @@ public class CouponsController {
 	public ResponseEntity<CouponsResponseDto> getCouponsById(@RequestParam("coupon_id") UUID coupon_id) throws ResourceNotFoundException{
 		Coupons coupon = this.couponsService.getCouponsById(coupon_id);
 		CouponsResponseDto couponsResponseDto=this.modelMapper.map(coupon, CouponsResponseDto.class);
+		couponsResponseDto.setTierId(coupon.getTiers().getTierId());
 		return ResponseEntity.ok(couponsResponseDto);
 	}
 	
