@@ -22,22 +22,25 @@ import com.hexaware.gtt.lms.dto.SuperAdminDto;
 import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.entities.SuperAdmin;
 import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
+import com.hexaware.gtt.lms.services.PartnerService;
 import com.hexaware.gtt.lms.services.SuperAdminService;
 
 @RestController
 @ResponseBody
-@RequestMapping("/api/v1/lms/SuperAdmin")
+@RequestMapping("/api/v1/lms/SuperAdmin/")
 public class SuperAdminController {
 	
 	@Autowired
 	private SuperAdminService superAdminService; 
 	@Autowired
 	private ModelMapper  modelMapper;
+	@Autowired
+	private PartnerService partnerService;
 	
 	
 	
-	@PostMapping("CreateSuperAdmin")
-	public ResponseEntity<?> CreatingSuperAdmin(@RequestBody SuperAdminDto spradmDto)
+	@PostMapping("CreateSuperAdmin/")
+	public ResponseEntity<?> creatingSuperAdmin(@RequestBody SuperAdminDto spradmDto)
 	{
 		
 		SuperAdmin sprAdm=superAdminService.createSuperAdmin(spradmDto);
@@ -48,12 +51,12 @@ public class SuperAdminController {
 	}
 	
 	
-	@PutMapping("UpdatingPartner")
-	public ResponseEntity<?> UpdatingPartner(@RequestParam("id")UUID id)
+	@PutMapping("UpdatingPartner/")
+	public ResponseEntity<?> updatingPartner(@RequestParam("id")UUID id,@RequestParam("status") boolean status)
 	{
 		try {
 		
-			String msg=superAdminService.statusUpdate(id);
+			String msg=superAdminService.statusUpdate(id,status);
 			return ResponseEntity.ok(msg);
 		
 		}
@@ -63,8 +66,8 @@ public class SuperAdminController {
 		}
 	}
 	
-	@GetMapping("GetpartnerByStatus")
-	public ResponseEntity<?> GetAllPartner(@RequestParam("status") boolean state)
+	@GetMapping("GetpartnerByStatus/")
+	public ResponseEntity<?> getAllPartner(@RequestParam("status") boolean state)
 	{
 		List<Partner> ptList=superAdminService.getAllActivePartner(state);
 		List<PartnerDto> ptDtoList=new ArrayList();
@@ -74,6 +77,37 @@ public class SuperAdminController {
 		}
 		
 		return ResponseEntity.ok(ptDtoList);
+	}
+	
+	@GetMapping("getApprovedPartners")
+	public ResponseEntity<?> getApprovedPartners(){
+		List<Partner> approvedPartners = partnerService.getApprovedPartners();
+		List<PartnerDto> partDtoList = new ArrayList<>();
+		for(Partner p: approvedPartners) {
+			partDtoList.add(modelMapper.map(p, PartnerDto.class));
+		}
+		return ResponseEntity.ok(partDtoList);
+		
+	}
+	
+	@GetMapping("getRejectedPartners")
+	public ResponseEntity<?> getRejectedPartners(){
+		List<Partner> rejectedPartners = partnerService.getRejectedPartners();
+		List<PartnerDto> partDtoList = new ArrayList<>();
+		for(Partner p: rejectedPartners) {
+			partDtoList.add(modelMapper.map(p, PartnerDto.class));
+		}
+		return ResponseEntity.ok(partDtoList);
+	}
+	
+	@GetMapping("getNewPartners")
+	public ResponseEntity<?> getNewPartners(){
+		List<Partner> newPartners = partnerService.getNewPartners();
+		List<PartnerDto> partDtoList = new ArrayList<>();
+		for(Partner p: newPartners) {
+			partDtoList.add(modelMapper.map(p, PartnerDto.class));
+		}
+		return ResponseEntity.ok(partDtoList);
 	}
 
 }

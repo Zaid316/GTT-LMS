@@ -1,5 +1,6 @@
 package com.hexaware.gtt.lms.servicesImpl;
  
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
  
@@ -126,6 +127,46 @@ public class PartnerServiceImpl implements PartnerService {
 			}
 				
 	}
+
+
+	@Override
+	public List<Partner> getApprovedPartners() {
+		List<Partner> partList = partnerRepository.findAll();
+		List<Partner> approvedPartners = new ArrayList<>();
+		for(Partner p: partList) {
+			if(p.isStatus()== true && p.isNewPartner()==false) {
+				approvedPartners.add(p);
+			}
+		}
+		return approvedPartners;
+	}
+
+
+	@Override
+	public List<Partner> getRejectedPartners() {
+		List<Partner> partList = partnerRepository.findAll();
+		List<Partner> rejectedPartners = new ArrayList<>();
+		for(Partner p: partList) {
+			if(p.isStatus()== false && p.isNewPartner()==false) {
+				rejectedPartners.add(p);
+			}
+		}
+		return rejectedPartners;
+	}
+
+
+	@Override
+	public List<Partner> getNewPartners() {
+		List<Partner> partList = partnerRepository.findAll();
+		List<Partner> newPartners = new ArrayList<>();
+		for(Partner p: partList) {
+			if(p.isStatus()== false && p.isNewPartner()==true) {
+				newPartners.add(p);
+			}
+		}
+		return newPartners;
+	}
+	
  
  
 }

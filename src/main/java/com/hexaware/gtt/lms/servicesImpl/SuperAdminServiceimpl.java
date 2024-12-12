@@ -25,6 +25,7 @@ public class SuperAdminServiceimpl implements SuperAdminService{
 	@Autowired	
 	private ModelMapper  modelMapper;
 	
+	@Override
 	public SuperAdmin createSuperAdmin(SuperAdminDto sprdto)
 	{
 		SuperAdmin sprAdm=modelMapper.map(sprdto,SuperAdmin.class);
@@ -36,13 +37,20 @@ public class SuperAdminServiceimpl implements SuperAdminService{
 		
 	}
 	
-	
-	public String statusUpdate(UUID partnerId) throws ResourceNotFoundException
+	@Override
+	public String statusUpdate(UUID partnerId, boolean status) throws ResourceNotFoundException
 	{
 		if(partnerId!=null)
 		{
 			Partner part=partnerRepository.findById(partnerId).get();
-			part.setStatus(true);
+			if(status) {
+				part.setStatus(status);
+				part.setNewPartner(false);
+			}
+			else {
+				part.setStatus(status);
+				part.setNewPartner(false);
+			}
 			partnerRepository.save(part);
 			return "The Status is updated successfully...";
 			}
@@ -52,6 +60,7 @@ public class SuperAdminServiceimpl implements SuperAdminService{
 	
     }
 	
+	@Override
 	public List<Partner> getAllActivePartner(boolean stat)
 	{
 		List<Partner> ptList= partnerRepository.findPartnerByStatus(stat);

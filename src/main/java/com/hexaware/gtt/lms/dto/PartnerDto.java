@@ -16,6 +16,8 @@ public class PartnerDto {
     private String email;
     @NotNull
     private String password;
+    
+    private boolean isNewPartner;
  
     
     private final LocalDateTime dateJoined = LocalDateTime.now();
@@ -86,4 +88,12 @@ public class PartnerDto {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+	public boolean isNewPartner() {
+		return isNewPartner;
+	}
+
+	public void setNewPartner(boolean isNewPartner) {
+		this.isNewPartner = isNewPartner;
+	}
 }

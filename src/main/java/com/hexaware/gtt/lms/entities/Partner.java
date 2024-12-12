@@ -23,8 +23,12 @@ public class Partner {
     @Column(updatable = false)
     private final LocalDateTime dateJoined = LocalDateTime.now();
  
-    private boolean status;  
+    private boolean status;
+    
+    private boolean isNewPartner;
+    
     private int countryCode;
+    
     @Column(unique=true)
     private Long contact;//have to add country code and should be unique
  
@@ -87,5 +91,13 @@ public class Partner {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+	public boolean isNewPartner() {
+		return isNewPartner;
+	}
+
+	public void setNewPartner(boolean isNewPartner) {
+		this.isNewPartner = isNewPartner;
+	}
  
 }
