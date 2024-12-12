@@ -1,6 +1,7 @@
 package com.hexaware.gtt.lms.services;
  
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
  
 import com.hexaware.gtt.lms.dto.OffersDto;
@@ -14,6 +15,7 @@ public interface OffersService {
 	public String deleteOffers(UUID offer_id)throws ResourceNotFoundException;
 	public Offers getOfferById(UUID offer_id)throws ResourceNotFoundException;
 	 public  List<Offers> getOfferByProgramId(UUID programId) throws ResourceNotFoundException;
+	public Offers getOfferByProgramIdAndTierId(UUID programId, UUID tierId);
 }
  
  

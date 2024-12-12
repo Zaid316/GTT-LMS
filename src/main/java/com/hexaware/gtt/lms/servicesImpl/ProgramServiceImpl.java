@@ -87,6 +87,12 @@ public class ProgramServiceImpl implements ProgramService {
 		Program prg=this.programRepository.findById(id).orElse(null);
 		return prg;
 	}
+
+	@Override
+	public UUID getCurrentProgram(UUID partnerId) {
+		List<UUID> programs = programRepository.findCurrentProgram(partnerId);
+		return programs.get(0);
+	}
 	
 	
 }

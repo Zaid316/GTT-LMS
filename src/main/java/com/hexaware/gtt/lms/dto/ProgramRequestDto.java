@@ -9,7 +9,7 @@ public class ProgramRequestDto {
 	private String programName;
 	 private UUID partnerId;
 	private boolean status;
-	
+	private boolean isDefault;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private LocalDateTime startDate;
 	
@@ -22,13 +22,14 @@ public class ProgramRequestDto {
 	}
 
 	public ProgramRequestDto(String programName, UUID partnerId, boolean status, LocalDateTime startDate,
-			LocalDateTime endDate) {
+			LocalDateTime endDate,boolean isDefault) {
 		super();
 		this.programName = programName;
 		this.partnerId = partnerId;
 		this.status = status;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.isDefault = isDefault;
 	}
 
 	public String getProgramName() {
@@ -71,12 +72,21 @@ public class ProgramRequestDto {
 		this.endDate = endDate;
 	}
 
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
 	@Override
 	public String toString() {
 		return "ProgramRequestDto [programName=" + programName + ", partnerId=" + partnerId + ", status=" + status
-				+ ", startDate=" + startDate + ", endDate=" + endDate + "]";
+				+ ", isDefault=" + isDefault + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 
+	
 	
 
 }

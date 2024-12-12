@@ -1,6 +1,7 @@
 package com.hexaware.gtt.lms.servicesImpl;
  
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,7 @@ public class OffersServiceImpl implements OffersService {
     private TiersRepository tiersRepository;
     @Autowired
     private ProgramRepository programRepository;
+    
     private ModelMapper modelMapper;
 
     @Autowired
@@ -90,5 +92,11 @@ public class OffersServiceImpl implements OffersService {
     	Program program = programRepository.findById(programId).orElseThrow(() -> new ResourceNotFoundException("Program", "id", programId));
         return this.offersRepository.findAllOffersByProgram(program);
     }
+
+	@Override
+	public Offers getOfferByProgramIdAndTierId(UUID programId, UUID tierId) {
+		List<Offers> offersList=  offersRepository.findOffersByProgramAndTier(programId, tierId);
+		return offersList.get(0);
+	}
 }
  

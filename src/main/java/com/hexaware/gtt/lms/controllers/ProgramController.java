@@ -107,8 +107,13 @@ public class ProgramController {
 			ProgramDto programDto= this.modelMapper.map(program,ProgramDto.class);
 			return ResponseEntity.ok(programDto);
 		}
- 
 		
+		
+		@GetMapping("/getCurrentProgramId")
+		public ResponseEntity<UUID> getCurrentProgramId(@RequestParam("partnerId") UUID partnerId){
+			UUID program=this.programService.getCurrentProgram(partnerId);
+			return ResponseEntity.ok(program);
+		}
 }
 
  

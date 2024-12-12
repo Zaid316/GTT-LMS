@@ -19,9 +19,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hexaware.gtt.lms.dto.QuitQRegistrationDto;
 import com.hexaware.gtt.lms.dto.QuitQResponseDto;
+import com.hexaware.gtt.lms.dto.TiersDto;
 import com.hexaware.gtt.lms.dto.UserDto;
+import com.hexaware.gtt.lms.dto.UserPartnerDto;
 import com.hexaware.gtt.lms.dto.UserResponseDto;
-import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.entities.Tiers;
 import com.hexaware.gtt.lms.entities.Users;
 import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
@@ -29,6 +30,8 @@ import com.hexaware.gtt.lms.repositories.PartnerRepository;
 import com.hexaware.gtt.lms.repositories.TiersRepository;
 import com.hexaware.gtt.lms.repositories.UserRepository;
 import com.hexaware.gtt.lms.services.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/v1/lms/users")
@@ -100,6 +103,13 @@ public class UsersController {
 		return ResponseEntity.ok(userResponseDto);
 	}
 
+	@GetMapping("/getUserTier")
+	public ResponseEntity<TiersDto> getUserTier(@RequestParam Long userId,@RequestParam UUID partnerId) throws ResourceNotFoundException{
+		UserPartnerDto userPartnerDto = new UserPartnerDto(userId, partnerId);
+		Tiers tier = userService.getUserTier(userPartnerDto);
+		TiersDto tiersDto =  this.modelMapper.map(tier,TiersDto.class);
+		return ResponseEntity.ok(tiersDto);
+	}
 	
 	//http://localhost:8080/api/v1/lms/users/updateUser?uId=fad0d750-f86f-42be-93d6-db56263eecac
 	@PutMapping("/updateUser")

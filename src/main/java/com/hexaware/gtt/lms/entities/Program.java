@@ -22,6 +22,7 @@ public class Program {
 	private UUID programId;
 	private String programName;
 	private boolean status;
+	private boolean isDefault;
 
 	@ElementCollection
 //	@CollectionTable(name = "program_coupons", joinColumns = @JoinColumn(name = "program_id"))
@@ -48,7 +49,7 @@ public class Program {
 	
 
 	public Program(UUID programId, String programName, boolean status, List<Coupons> coupons, List<Offers> offers,
-			Partner partner, LocalDateTime startDate, LocalDateTime endDate) {
+			Partner partner, LocalDateTime startDate, LocalDateTime endDate,  boolean isDefault) {
 		super();
 		this.programId = programId;
 		this.programName = programName;
@@ -58,6 +59,7 @@ public class Program {
 		this.partner = partner;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.isDefault = isDefault;
 	}
 
 
@@ -132,13 +134,28 @@ public class Program {
 
 
 
-	@Override
-	public String toString() {
-		return "Program [programId=" + programId + ", programName=" + programName + ", status=" + status + ", coupons="
-				+ coupons + ", offers=" + offers + ", partner=" + partner + ", startDate=" + startDate + ", endDate="
-				+ endDate + "]";
+	public boolean isDefault() {
+		return isDefault;
 	}
 
+
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Program [programId=" + programId + ", programName=" + programName + ", status=" + status
+				+ ", isDefault=" + isDefault + ", coupons=" + coupons + ", offers=" + offers + ", partner=" + partner
+				+ ", startDate=" + startDate + ", endDate=" + endDate + "]";
+	}
+
+
+
+	
 	
 
 }

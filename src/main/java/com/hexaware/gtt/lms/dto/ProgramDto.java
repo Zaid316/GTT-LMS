@@ -13,6 +13,7 @@ public class ProgramDto {
 	private String programName;
 	 private UUID partnerId;
 	private boolean status;
+	private boolean isDefault;
 	private List<Coupons> coupons;
 	private List<Offers> offers;
 
@@ -28,7 +29,7 @@ public class ProgramDto {
 	
 	
 	public ProgramDto(UUID programId, String programName, UUID partnerId, boolean status, List<Coupons> coupons,
-			List<Offers> offers, LocalDateTime startDate, LocalDateTime endDate) {
+			List<Offers> offers, LocalDateTime startDate, LocalDateTime endDate, boolean isDefault) {
 		super();
 		this.programId = programId;
 		this.programName = programName;
@@ -38,6 +39,7 @@ public class ProgramDto {
 		this.offers = offers;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.isDefault = isDefault;
 	}
 
 
@@ -121,12 +123,25 @@ public class ProgramDto {
 	}
 
 
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ProgramDto [programId=" + programId + ", programName=" + programName + ", partnerId=" + partnerId
-				+ ", status=" + status + ", coupons=" + coupons + ", offers=" + offers + ", startDate=" + startDate
-				+ ", endDate=" + endDate + "]";
+				+ ", status=" + status + ", isDefault=" + isDefault + ", coupons=" + coupons + ", offers=" + offers
+				+ ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
+
+
+
 
 
 

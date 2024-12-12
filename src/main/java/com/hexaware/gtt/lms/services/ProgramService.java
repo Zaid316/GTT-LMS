@@ -18,4 +18,5 @@ public interface ProgramService {
 	public Program updateProgram(ProgramDto programDto) throws ResourceNotFoundException;
 	public boolean deleteProgram(UUID id) throws ResourceDeletionException;
 	public Program getProgramById(UUID id);
+	public UUID getCurrentProgram(UUID partnerId);
 }

@@ -75,6 +75,14 @@ public class OffersController {
 		return ResponseEntity.ok(offersResponseDtoList);
 	}
 	
+	@GetMapping("/getOfferByProgramIdAndTierId")
+	public ResponseEntity<OffersDto> getOfferByProgramIdAndTierId(@RequestParam("program_id") UUID programId, @RequestParam("tier_id") UUID tierId ) throws ResourceNotFoundException {
+		Offers offer =  this.offersService.getOfferByProgramIdAndTierId(programId,tierId);
+		OffersDto offersDto = this.modelMapper.map(offer,OffersDto.class);
+		offersDto.setTierId(offer.getTiers().getTierId());
+		return ResponseEntity.ok(offersDto);
+	}
+	
 	//http://localhost:8080/api/v1/lms/offers/updateOffer?offer_id=05fcdb70-b4f2-4308-89be-e823d87151fb
 	@PutMapping("/updateOffer")
 	public ResponseEntity<OffersResponseDto> updateOffers(@RequestBody OffersDto offersDto,@RequestParam("offer_id") UUID offer_id) throws ResourceNotFoundException {

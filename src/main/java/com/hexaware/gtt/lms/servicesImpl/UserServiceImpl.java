@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.gtt.lms.dto.QuitQRegistrationDto;
 import com.hexaware.gtt.lms.dto.UserDto;
+import com.hexaware.gtt.lms.dto.UserPartnerDto;
 import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.entities.Tiers;
 import com.hexaware.gtt.lms.entities.Users;
@@ -18,7 +19,7 @@ import com.hexaware.gtt.lms.repositories.TiersRepository;
 import com.hexaware.gtt.lms.repositories.UserRepository;
 import com.hexaware.gtt.lms.services.UserService;
 
-import jakarta.validation.constraints.Null;
+import jakarta.validation.Valid;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -109,4 +110,11 @@ public class UserServiceImpl implements UserService {
                 userRepository.delete(users);
                 return "User " + uId + " deleted successfully";
         }
+
+		@Override
+		public Tiers getUserTier(@Valid UserPartnerDto userPartnerDto) {
+			UUID uId = userRepository.findUIdByPartnerIdAndUserId(userPartnerDto.getPartnerId(), userPartnerDto.getUserId());
+			UUID tierId= userRepository.getTierByUId(uId);
+			return this.tiersRepository.findById(tierId).get();
+		}
 }
