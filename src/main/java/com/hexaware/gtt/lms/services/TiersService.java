@@ -12,5 +12,5 @@ public interface TiersService {
 	public boolean deleteTier(UUID id);
 	public List<Tiers> getallTiersbyPartnerId(UUID id) throws Exception;
 	public Tiers createFreeTier(FreeTiersDto frdto);
-	
+	public Tiers findTierbyTierId(UUID id) throws Exception;
 }

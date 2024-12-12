@@ -26,7 +26,7 @@ import com.hexaware.gtt.lms.services.UserCouponService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/lms/api/v1/userCoupons/")
+@RequestMapping("/lms/api/v1/userCoupons")
 @ResponseBody
 public class UserCouponsController {
 	private UserCouponService userCouponService;
@@ -38,7 +38,8 @@ public class UserCouponsController {
 		this.modelmapper = modelmapper;
 	}	
 	
-	@PostMapping("generateCoupon/")
+	//http://localhost:8080/lms/api/v1/userCoupons/generateCoupon
+	@PostMapping("/generateCoupon")
 	public ResponseEntity<?> generateCoupon(@Valid @RequestBody UserPartnerDto userPartnerDto)
 	{
 		
@@ -48,7 +49,7 @@ public class UserCouponsController {
 			float couponProbability=userCouponService.findProbablity(tierId);
 			UUID couponId=userCouponService.getCouponId(tierId);
 			UserCouponDto userCouponDto;
-			if(userCouponService.awardCoupon(couponProbability)) {
+			if(userCouponService.awardCoupon(couponProbability) && couponId!=null) {
 				CouponGenerationDto couponGenerationDto = new CouponGenerationDto(couponId,uId);
 				UserCoupons userCoupons =userCouponService.generateCoupon(couponGenerationDto);
 				userCouponDto=modelmapper.map(userCoupons, UserCouponDto.class);
@@ -66,7 +67,8 @@ public class UserCouponsController {
 		}		
 	}
 	
-	@PostMapping("validate")
+	//http://localhost:8080/lms/api/v1/userCoupons/validate
+	@PostMapping("/validate")
 	public ResponseEntity<?> validateCoupon(@RequestBody UserValidationDto userValidationDto) {
 		boolean isValid = userCouponService.validateCoupon(userValidationDto);
 		if (isValid){
@@ -77,7 +79,8 @@ public class UserCouponsController {
 
 	}
 
-	@PostMapping("redeem")
+	//http://localhost:8080/lms/api/v1/userCoupons/redeem
+	@PostMapping("/redeem")
 	public ResponseEntity<?> redeemCoupon(@RequestBody UserValidationDto userValidationDto) {
 		boolean isValid = userCouponService.redeemCoupon(userValidationDto);
 		if (isValid){
@@ -88,29 +91,41 @@ public class UserCouponsController {
 
 	}
 	
-	@GetMapping("getActiveCoupons/")
+	//http://localhost:8080/lms/api/v1/userCoupons/getActiveCoupons?uId=cd2b00bb-3a35-4e6d-8950-b083fada5a03
+	@GetMapping("/getActiveCoupons")
 	public ResponseEntity<?> listOfActiveCoupons(@RequestParam("uId") UUID uId){
 		List<UserCoupons> userCoupons=userCouponService.listOfActiveCoupons(uId);
 		List<UserCouponDto> userCouponDtoList=new ArrayList<>();
 		for(UserCoupons u: userCoupons) {
 			UserCouponDto userCouponDto=this.modelmapper.map(u, UserCouponDto.class);
 			userCouponDto.setuId(u.getUsers().getuId());
-			//userCouponDto.setCouponId(couponId);
+			userCouponDto.setCouponId(u.getCoupons().getCouponId());
 			userCouponDtoList.add(userCouponDto);
 		}
 		return ResponseEntity.ok(userCouponDtoList);
 	}
+	//http://localhost:8080/lms/api/v1/userCoupons/getAllUserCoupons?uId=cd2b00bb-3a35-4e6d-8950-b083fada5a03
 	@GetMapping("getAllUserCoupons/")
-	public ResponseEntity<?> listOfAllCoupons(@RequestParam UUID uId){
+	public ResponseEntity<?> listOfAllCoupons(@RequestParam("uId") UUID uId){
 		List<UserCoupons> userCoupons=userCouponService.listOfAllCoupons(uId);
 		List<UserCouponDto> userCouponDtoList=new ArrayList<>();
 		for(UserCoupons u:userCoupons) {
 			UserCouponDto userCouponDto=this.modelmapper.map(u, UserCouponDto.class);
 			userCouponDto.setuId(u.getUsers().getuId());
-			//userCouponDto.setCouponId(couponId);
+			userCouponDto.setCouponId(u.getCoupons().getCouponId());
 			userCouponDtoList.add(userCouponDto);
 		}
 		return ResponseEntity.ok(userCouponDtoList);
+	}
+
+	@GetMapping("getUser/")
+	public UUID finduid(@RequestBody UserPartnerDto userPartnerDto) {
+		return this.userCouponService.finduid(userPartnerDto);
+	}
+
+	@GetMapping("/getUserByparam")
+	public UUID finduidbyuserAndPartner(@RequestParam Long userId,@RequestParam UUID partnerId) {
+		return this.userCouponService.finduidbyuserAndPartner(userId, partnerId);
 	}
 	}
 	

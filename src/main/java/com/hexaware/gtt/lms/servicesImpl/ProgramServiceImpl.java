@@ -30,8 +30,10 @@ public class ProgramServiceImpl implements ProgramService {
 		program.setProgramName(programRequest.getProgramName());
 		Partner partner = partnerRepository.findById(programRequest.getPartnerId()).orElse(null);
 		program.setPartner(partner);
+		program.setStatus(programRequest.isStatus());
+        program.setStartDate(programRequest.getStartDate());
+        program.setEndDate(programRequest.getEndDate());
 		return programRepository.save(program);
-
 	}
 
 	@Override

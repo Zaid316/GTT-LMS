@@ -207,4 +207,10 @@ public class UserCouponServiceImpl implements UserCouponService {
 		}
 		return userCoupons;
 	}
+
+	@Override
+	public UUID finduidbyuserAndPartner(Long userId,UUID PartnerId) {
+		return userRepository.findUIdByPartnerIdAndUserId(PartnerId, userId);
+		
+	}
 }

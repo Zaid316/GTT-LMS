@@ -37,15 +37,15 @@ public class OffersController {
 		this.offersService = offersService;
 		this.modelMapper = modelMapper;
 	}
- 
-	@PostMapping("/createOffers")
+    //http://localhost:8080/api/v1/lms/offers/createOffer
+   	@PostMapping("/createOffer")
 	public ResponseEntity<OffersResponseDto> createOffers(@RequestBody OffersDto offersDto) throws ResourceNotFoundException {
 		Offers offers=this.offersService.createOffers(offersDto);
 		OffersResponseDto offerResponseDto=this.modelMapper.map(offers,OffersResponseDto.class);
 		return ResponseEntity.ok(offerResponseDto);
 	}
-	
-	@GetMapping("/getOffers")
+  //http://localhost:8080/api/v1/lms/offers/getOffers
+  	@GetMapping("/getOffers")
 	public ResponseEntity<List<OffersResponseDto>> getOffers(){
 		List<Offers> offersList= this.offersService.getOffers();
 		List<OffersResponseDto> offersResponseDtoList=new ArrayList<>();
@@ -55,14 +55,15 @@ public class OffersController {
 		}
 		return ResponseEntity.ok(offersResponseDtoList);
 	}
-	
-	@GetMapping("/getOfferById")
+  //http://localhost:8080/api/v1/lms/offers/getOfferById?offer_id=05fcdb70-b4f2-4308-89be-e823d87151fb
+  	@GetMapping("/getOfferById")
 	public ResponseEntity<OffersResponseDto> getOfferById(@RequestParam("offer_id") UUID offer_id ) throws ResourceNotFoundException {
 		Offers offer = this.offersService.getOfferById(offer_id);
 		OffersResponseDto offerResponseDto= this.modelMapper.map(offer,OffersResponseDto.class);
 		return ResponseEntity.ok(offerResponseDto);
 	}
 	
+	//http://localhost:8080/api/v1/lms/offers/getOffersByProgramId?program_id=e5201b21-09ed-4858-a4b6-dd63ed7f8f4e
 	@GetMapping("/getOffersByProgramId")
 	public ResponseEntity<List<OffersResponseDto>> getOfferByProgramId(@RequestParam("program_id") UUID programId ) throws ResourceNotFoundException {
 		List<Offers> offersList = this.offersService.getOfferByProgramId(programId);
@@ -74,7 +75,8 @@ public class OffersController {
 		return ResponseEntity.ok(offersResponseDtoList);
 	}
 	
-	@PutMapping("/updateOffers")
+	//http://localhost:8080/api/v1/lms/offers/updateOffer?offer_id=05fcdb70-b4f2-4308-89be-e823d87151fb
+	@PutMapping("/updateOffer")
 	public ResponseEntity<OffersResponseDto> updateOffers(@RequestBody OffersDto offersDto,@RequestParam("offer_id") UUID offer_id) throws ResourceNotFoundException {
 		
 		Offers offer=this.offersService.updateOffers(offersDto,offer_id);
@@ -82,7 +84,8 @@ public class OffersController {
 		return ResponseEntity.ok(offerResponseDto);
 	}
 		
-	@DeleteMapping("/deleteOffers")
+	//http://localhost:8080/api/v1/lms/offers/deleteOffer?offer_id=585255bd-6705-4238-be13-1fa6f36567ff
+	@DeleteMapping("/deleteOffer")
 	public ResponseEntity<String> deleteOffers(@RequestParam("offer_id") UUID offer_id) throws ResourceNotFoundException {
 		String s = this.offersService.deleteOffers(offer_id);
 		return ResponseEntity.ok(s);

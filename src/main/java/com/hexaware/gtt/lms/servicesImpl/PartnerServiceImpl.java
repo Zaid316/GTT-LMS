@@ -6,7 +6,8 @@ import java.util.UUID;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
- 
+
+import com.hexaware.gtt.lms.dto.Logindto;
 import com.hexaware.gtt.lms.dto.PartnerDto;
 import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.exception.DuplicateDataException;
@@ -103,18 +104,25 @@ public class PartnerServiceImpl implements PartnerService {
 	}
 	
 	
-	public String loginPartner(String email,String pwd)
+	public Logindto loginPartner(String email,String pwd)
 	{
 		Partner part=partnerRepository.findByEmail(email);
+		
+		System.out.println("The object is : " +part);
 		String emil=part.getEmail();
+		
+		
 		String paswd=part.getPassword();
-		if(email==emil&&pwd==paswd)
+		if(email.equals(emil)&&pwd.equals(paswd))
 		{
-			return "Login in Successful";
+			Logindto logdto = this.modelmapper.map(part, Logindto.class);
+			logdto.setPartnerId(part.getPartnerId());
+			logdto.setEmail(emil);
+			return logdto;
 		}
 		else
 		{
-			return "Login failed due to Invadlid Credentials";
+			return null;
 			}
 				
 	}

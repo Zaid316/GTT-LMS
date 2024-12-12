@@ -2,7 +2,8 @@ package com.hexaware.gtt.lms.services;
  
 import java.util.List;
 import java.util.UUID;
- 
+
+import com.hexaware.gtt.lms.dto.Logindto;
 import com.hexaware.gtt.lms.dto.PartnerDto;
 import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.exception.DuplicateDataException;
@@ -22,5 +23,5 @@ public interface PartnerService {
  
 	boolean deletePartner(UUID id) throws ResourceDeletionException;
 	
-	public String loginPartner(String email,String pwd);
+	public Logindto loginPartner(String email,String pwd);
 }

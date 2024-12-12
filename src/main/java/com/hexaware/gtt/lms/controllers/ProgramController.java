@@ -42,11 +42,13 @@ public class ProgramController {
 		this.programService = programService;
 		this.modelMapper = modelMapper;
 	}
+		//http://localhost:8080/api/v1/lms/programs/createProgram
 		@PostMapping("/createProgram")
 		public ResponseEntity<?> createProgram(@RequestBody ProgramRequestDto programRequest){
 			Program program = programService.createProgram(programRequest);
 			return new ResponseEntity<>("Program created Successfully with ID: "+program.getProgramId(), HttpStatus.CREATED);
 		}
+		//http://localhost:8080/api/v1/lms/programs/getAllPrograms
 		@GetMapping("/getAllPrograms")
 		public ResponseEntity<List<ProgramDto>> getProgarms(){
 			List<Program> programsList=this.programService.getAllPrograms();
@@ -58,6 +60,7 @@ public class ProgramController {
 			return ResponseEntity.ok(programDtoList);
 
 		}
+		//http://localhost:8080/api/v1/lms/programs/getAllPartnerPrograms?partner_id=0100761c-0755-4abd-ba10-b57ba721a351
 		@GetMapping("/getAllPartnerPrograms")
 		public ResponseEntity<List<ProgramDto>> getPartnerProgarms(@RequestParam("partner_id") UUID partnerId){
 			List<Program> programsList=this.programService.getAllPartnerPrograms(partnerId);
@@ -69,6 +72,7 @@ public class ProgramController {
 			return ResponseEntity.ok(programDtoList);
 
 		}
+		//http://localhost:8080/api/v1/lms/programs/updateProgram
 		@PutMapping("/updateProgram")
 		public ResponseEntity<?> updatePartner(@Valid @RequestBody ProgramDto programDto){
 			try {
@@ -80,6 +84,7 @@ public class ProgramController {
 			}
 		}
 
+		//http://localhost:8080/api/v1/lms/programs/deleteProgramById?id=f79985de-3a1a-432a-87bf-e489e274ae8a
 		@DeleteMapping("/deleteProgramById")
 		public ResponseEntity<?> deleteProgram(@RequestParam("id") UUID id){
 			try {
