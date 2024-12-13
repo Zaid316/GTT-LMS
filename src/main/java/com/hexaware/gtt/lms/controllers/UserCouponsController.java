@@ -100,6 +100,7 @@ public class UserCouponsController {
 			UserCouponDto userCouponDto=this.modelmapper.map(u, UserCouponDto.class);
 			userCouponDto.setuId(u.getUsers().getuId());
 			userCouponDto.setCouponId(u.getCoupons().getCouponId());
+			userCouponDto.setCouponTitle(u.getCoupons().getCouponTitle());
 			userCouponDtoList.add(userCouponDto);
 		}
 		return ResponseEntity.ok(userCouponDtoList);
@@ -113,6 +114,7 @@ public class UserCouponsController {
 			UserCouponDto userCouponDto=this.modelmapper.map(u, UserCouponDto.class);
 			userCouponDto.setuId(u.getUsers().getuId());
 			userCouponDto.setCouponId(u.getCoupons().getCouponId());
+			userCouponDto.setCouponTitle(u.getCoupons().getCouponTitle());
 			userCouponDtoList.add(userCouponDto);
 		}
 		return ResponseEntity.ok(userCouponDtoList);
