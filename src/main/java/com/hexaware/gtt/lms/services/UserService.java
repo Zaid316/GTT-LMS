@@ -21,4 +21,5 @@ public interface UserService {
     public String deleteUser(UUID uId) throws ResourceNotFoundException;
     public Users updateUsersTier(UUID uid,Tiers tier) throws ResourceNotFoundException;
 	public Tiers getUserTier(@Valid UserPartnerDto userPartnerDto);
+	public List<Users> getUsersByPartner(UUID partnerId);
 }

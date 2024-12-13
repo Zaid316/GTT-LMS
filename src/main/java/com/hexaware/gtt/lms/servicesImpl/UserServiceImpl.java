@@ -117,4 +117,10 @@ public class UserServiceImpl implements UserService {
 			UUID tierId= userRepository.getTierByUId(uId);
 			return this.tiersRepository.findById(tierId).get();
 		}
+
+		@Override
+		public List<Users> getUsersByPartner(UUID partnerId) {
+			Partner partner = partnerRepository.findByPartnerId(partnerId);
+			return userRepository.findAllByPartner(partner);
+		}
 }

@@ -80,8 +80,20 @@ public class UsersController {
 		}
 		return ResponseEntity.ok(userResponseDtoList);
 	}
+	
+	//http://localhost:8080/api/v1/lms/users/getUsersByPartner?partner_id=71ba75b8-780f-4aba-964d-345aa739f35f
+		@GetMapping("/getUsersByPartner")
+		public ResponseEntity<List<UserResponseDto>> getUsersByPartner(@RequestParam("partner_id") UUID partnerId){
+			List<Users> userList=userService.getUsersByPartner(partnerId);
+			List<UserResponseDto> userResponseDtoList=new ArrayList<>();
+			for(Users user:userList) {
+				UserResponseDto userResponseDto=modelMapper.map(user, UserResponseDto.class);
+				userResponseDtoList.add(userResponseDto);
+			}
+			return ResponseEntity.ok(userResponseDtoList);
+		}
 
-	//http://localhost:8080/api/v1/lms/users/getUsers
+	//http://localhost:8080/api/v1/lms/users/getUserById
 	@GetMapping("/getUserById")
 	public ResponseEntity<UserResponseDto> getUserById(@RequestParam("uId") UUID uid) throws ResourceNotFoundException{
 		Users user = this.userService.getUserById(uid);

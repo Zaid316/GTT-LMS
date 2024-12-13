@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.entities.Tiers;
 import com.hexaware.gtt.lms.entities.Users;
 import java.util.List;
@@ -21,5 +22,7 @@ public interface UserRepository extends JpaRepository<Users, UUID> {
 	UUID findUIdByPartnerIdAndUserId(@Param("partnerId") UUID partnerId, @Param("userId") Long userId);
 	
 	Users findByUId(UUID uId);
+
+	List<Users> findAllByPartner(Partner partner);
 
 }
