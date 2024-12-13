@@ -65,14 +65,15 @@ public class OffersController {
 	
 	//http://localhost:8080/api/v1/lms/offers/getOffersByProgramId?program_id=e5201b21-09ed-4858-a4b6-dd63ed7f8f4e
 	@GetMapping("/getOffersByProgramId")
-	public ResponseEntity<List<OffersResponseDto>> getOfferByProgramId(@RequestParam("program_id") UUID programId ) throws ResourceNotFoundException {
+	public ResponseEntity<List<OffersDto>> getOfferByProgramId(@RequestParam("program_id") UUID programId ) throws ResourceNotFoundException {
 		List<Offers> offersList = this.offersService.getOfferByProgramId(programId);
-		List<OffersResponseDto> offersResponseDtoList=new ArrayList<>();
+		List<OffersDto> OffersDtoList=new ArrayList<>();
 		for(Offers offer:offersList) {
-			OffersResponseDto offersResponseDto=this.modelMapper.map(offer, OffersResponseDto.class);
-			offersResponseDtoList.add(offersResponseDto);
+			OffersDto offersDto = this.modelMapper.map(offer,OffersDto.class);
+			offersDto.setTierId(offer.getTiers().getTierId());
+			OffersDtoList.add(offersDto);
 		}
-		return ResponseEntity.ok(offersResponseDtoList);
+		return ResponseEntity.ok(OffersDtoList);
 	}
 	
 	@GetMapping("/getOfferByProgramIdAndTierId")
