@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.gtt.lms.dto.ProgramDto;
 import com.hexaware.gtt.lms.dto.ProgramRequestDto;
+import com.hexaware.gtt.lms.entities.Coupons;
 import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.entities.Program;
 import com.hexaware.gtt.lms.exception.ResourceDeletionException;
 import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
+import com.hexaware.gtt.lms.repositories.CouponRepository;
 import com.hexaware.gtt.lms.repositories.PartnerRepository;
 import com.hexaware.gtt.lms.repositories.ProgramRepository;
+import com.hexaware.gtt.lms.services.CouponsService;
 import com.hexaware.gtt.lms.services.ProgramService;
 
 @Service
@@ -23,6 +26,11 @@ public class ProgramServiceImpl implements ProgramService {
 	private ProgramRepository programRepository;
 	@Autowired
 	private PartnerRepository partnerRepository;
+	@Autowired
+	private CouponRepository couponRepository;
+	@Autowired
+	private CouponsService couponService;
+	
 
 	@Override
 	public Program createProgram(ProgramRequestDto programRequest) {
@@ -60,6 +68,13 @@ public class ProgramServiceImpl implements ProgramService {
 			prg.setEndDate(programDto.getEndDate());
 			prg.setStatus(programDto.isStatus());
 			Program savedProgram = programRepository.save(prg);
+			List<Coupons> couponLst = couponService.getCoupons();
+			for(Coupons coupon : couponLst) {
+				if(coupon.getProgram().getProgramId()==programDto.getProgramId()) {
+					coupon.setStatus(savedProgram.isStatus());
+					couponRepository.save(coupon);
+				}
+			}
 			return savedProgram;
 		}
 	}

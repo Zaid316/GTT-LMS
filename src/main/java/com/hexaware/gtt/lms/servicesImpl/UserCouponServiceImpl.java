@@ -105,19 +105,29 @@ public class UserCouponServiceImpl implements UserCouponService {
 	@Override
 	public UserCoupons generateCoupon(CouponGenerationDto couponGenerationDto) {
 		String couponCode;
-		UUID couponId = couponGenerationDto.getCouponId();
+		
 		UUID u_id = couponGenerationDto.getuId();
-		Coupons coupon = couponRepository.findById(couponId).orElse(null);
-		int validity = coupon.getValidity();
-		Users user = userRepository.findById(u_id).orElse(null);
-
-		do {
-			couponCode = generateRandomCouponCode(6);
-		} while (userCouponRepository.existsById(couponCode));
-		UserCoupons newCoupon = new UserCoupons(couponCode, coupon, user, java.time.LocalDateTime.now(),
-				UserCouponStatus.ACTIVE, java.time.LocalDateTime.now().plusDays(validity));
-		return userCouponRepository.save(newCoupon);
-
+		List<Coupons> activeCouponList= new ArrayList<>();
+		List<Coupons> couponLst = couponRepository.findAll();
+		for(Coupons coupon : couponLst) {
+			if(coupon.getStatus()) {
+				activeCouponList.add(coupon);
+			}
+		}
+		UserCoupons userCoupons =new UserCoupons();
+		for(Coupons coupon: activeCouponList) {
+			int validity = coupon.getValidity();
+			Users user = userRepository.findById(u_id).orElse(null);
+ 
+			do {
+				couponCode = generateRandomCouponCode(6);
+			} while (userCouponRepository.existsById(couponCode));
+			UserCoupons newCoupon = new UserCoupons(couponCode, coupon, user, java.time.LocalDateTime.now(),
+					UserCouponStatus.ACTIVE, java.time.LocalDateTime.now().plusDays(validity));
+			userCoupons= userCouponRepository.save(newCoupon);
+		}
+		return userCoupons;
+	
 	}
 
 	@Override

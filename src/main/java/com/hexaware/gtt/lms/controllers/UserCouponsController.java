@@ -55,6 +55,7 @@ public class UserCouponsController {
 				userCouponDto=modelmapper.map(userCoupons, UserCouponDto.class);
 				userCouponDto.setuId(userCoupons.getUsers().getuId());
 				userCouponDto.setCouponId(couponId);
+				userCouponDto.setCouponTitle(userCoupons.getCoupons().getCouponTitle());
 				System.out.println("User coupon"+ userCouponDto);
 			}
 			else {
@@ -63,7 +64,7 @@ public class UserCouponsController {
 			return ResponseEntity.ok(userCouponDto);
 		}catch(Exception e){
 			
-			return ResponseEntity.ok("partner Id/User Id invalid");
+			return ResponseEntity.ok("partner Id/User Id/Coupon Id invalid");
 		}		
 	}
 	
