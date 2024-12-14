@@ -89,6 +89,19 @@ public class CouponsController {
 		return ResponseEntity.ok(couponsResponseDtoList);
 	}
 	
+	@GetMapping("/getStandaloneCouponsByPartner")
+	public ResponseEntity<List<CouponsResponseDto>> getStandaloneCouponsByPartner(@RequestParam("partner_id") UUID partnerId) throws ResourceNotFoundException{
+		List<Coupons> couponsList = this.couponsService.getStandaloneCoupons(partnerId);
+		List<CouponsResponseDto> couponsResponseDtoList=new ArrayList<>();
+		for(Coupons coupon : couponsList) {
+			CouponsResponseDto couponsResponseDto=this.modelMapper.map(coupon, CouponsResponseDto.class);
+			couponsResponseDto.setTierId(coupon.getTiers().getTierId());
+			couponsResponseDtoList.add(couponsResponseDto);
+			
+		}
+		return ResponseEntity.ok(couponsResponseDtoList);
+	}
+	
 	//http://localhost:8080/api/v1/lms/coupons/updateCoupon?coupon_id=3b6b1020-2004-4118-906a-52566fcfc27d
 	@PutMapping("/updateCoupon")
 	public ResponseEntity<CouponsResponseDto> updateCoupons(@RequestBody CouponsDto couponsDto,@RequestParam("coupon_id") UUID coupon_id) throws ResourceNotFoundException {

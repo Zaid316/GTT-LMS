@@ -18,5 +18,5 @@ public interface CouponRepository extends JpaRepository<Coupons, UUID>{
 
 
 
-	List<Coupons> findAllOffersByProgram(Program program);
+	List<Coupons> findAllCouponsByProgram(Program program);
 }

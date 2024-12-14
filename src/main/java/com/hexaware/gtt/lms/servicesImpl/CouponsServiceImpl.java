@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.gtt.lms.dto.CouponsDto;
 import com.hexaware.gtt.lms.entities.Coupons;
+import com.hexaware.gtt.lms.entities.Partner;
 import com.hexaware.gtt.lms.entities.Program;
 import com.hexaware.gtt.lms.entities.Tiers;
 import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
 import com.hexaware.gtt.lms.repositories.CouponRepository;
+import com.hexaware.gtt.lms.repositories.PartnerRepository;
 import com.hexaware.gtt.lms.repositories.ProgramRepository;
 import com.hexaware.gtt.lms.repositories.TiersRepository;
 import com.hexaware.gtt.lms.services.CouponsService;
@@ -23,15 +25,17 @@ public class CouponsServiceImpl implements CouponsService {
     private CouponRepository couponsRepository;
     private TiersRepository tiersRepository;
     private ProgramRepository programRepository;
+    private PartnerRepository partnerRepository;
     private ModelMapper modelMapper;
  
     @Autowired
-    public CouponsServiceImpl(CouponRepository couponsRepository, ModelMapper modelMapper, TiersRepository tiersRepository, ProgramRepository programRepository) {
+    public CouponsServiceImpl(CouponRepository couponsRepository, ModelMapper modelMapper, TiersRepository tiersRepository, ProgramRepository programRepository, PartnerRepository partnerRepository) {
         super();
         this.couponsRepository = couponsRepository;
         this.modelMapper = modelMapper;
         this.tiersRepository = tiersRepository;
         this.programRepository = programRepository;
+        this.partnerRepository = partnerRepository;
     }
  
     @Override
@@ -88,8 +92,15 @@ public class CouponsServiceImpl implements CouponsService {
 	@Override
 	public List<Coupons> getCouponsByProgramId(UUID programId) throws ResourceNotFoundException{
 		Program program = programRepository.findById(programId).orElseThrow(() -> new ResourceNotFoundException("Program", "id", programId));
-		return this.couponsRepository.findAllOffersByProgram(program);
+		return this.couponsRepository.findAllCouponsByProgram(program);
 		
+	}
+
+	@Override
+	public List<Coupons> getStandaloneCoupons(UUID partnerId) throws ResourceNotFoundException {
+		UUID programId = programRepository.findDefaultProgram(partnerId);
+		Program program = programRepository.findById(programId).orElseThrow(() -> new ResourceNotFoundException("Program", "id", programId));
+		return this.couponsRepository.findAllCouponsByProgram(program);
 	}
 }
  

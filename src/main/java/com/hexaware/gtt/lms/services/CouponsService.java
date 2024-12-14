@@ -2,7 +2,7 @@ package com.hexaware.gtt.lms.services;
  
 import java.util.List;
 import java.util.UUID;
- 
+
 import com.hexaware.gtt.lms.dto.CouponsDto;
 import com.hexaware.gtt.lms.entities.Coupons;
 import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
@@ -15,6 +15,7 @@ public interface CouponsService {
 	public String deleteCoupons(UUID coupon_id) throws ResourceNotFoundException;
 	public Coupons getCouponsById(UUID coupon_id) throws ResourceNotFoundException;
 	public List<Coupons> getCouponsByProgramId(UUID programId) throws ResourceNotFoundException;
+	public List<Coupons> getStandaloneCoupons(UUID partnerId) throws ResourceNotFoundException;
 }
  
  
