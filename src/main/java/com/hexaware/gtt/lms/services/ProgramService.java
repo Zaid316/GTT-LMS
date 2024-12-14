@@ -19,4 +19,5 @@ public interface ProgramService {
 	public boolean deleteProgram(UUID id) throws ResourceDeletionException;
 	public Program getProgramById(UUID id);
 	public UUID getCurrentProgram(UUID partnerId);
+	public UUID getDefaultProgramId(UUID partnerId);
 }

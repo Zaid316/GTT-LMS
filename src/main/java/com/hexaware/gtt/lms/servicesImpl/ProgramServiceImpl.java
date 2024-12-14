@@ -93,6 +93,11 @@ public class ProgramServiceImpl implements ProgramService {
 		List<UUID> programs = programRepository.findCurrentProgram(partnerId);
 		return programs.get(0);
 	}
+
+	@Override
+	public UUID getDefaultProgramId(UUID partnerId) {
+		return programRepository.findDefaultProgram(partnerId);
+	}
 	
 	
 }

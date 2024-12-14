@@ -114,6 +114,12 @@ public class ProgramController {
 			UUID program=this.programService.getCurrentProgram(partnerId);
 			return ResponseEntity.ok(program);
 		}
+		
+		@GetMapping("/getDefaultProgramId")
+		public ResponseEntity<UUID> getDefaultProgramId(@RequestParam("partnerId") UUID partnerId){
+			UUID program=this.programService.getDefaultProgramId(partnerId);
+			return ResponseEntity.ok(program);
+		}
 }
 
  
