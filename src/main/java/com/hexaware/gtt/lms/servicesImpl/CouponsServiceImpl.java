@@ -98,9 +98,10 @@ public class CouponsServiceImpl implements CouponsService {
 
 	@Override
 	public List<Coupons> getStandaloneCoupons(UUID partnerId) throws ResourceNotFoundException {
+		System.out.println("partnerId inside service of coupon"+partnerId);
 		UUID programId = programRepository.findDefaultProgram(partnerId);
-		Program program = programRepository.findById(programId).orElseThrow(() -> new ResourceNotFoundException("Program", "id", programId));
-		return this.couponsRepository.findAllCouponsByProgram(program);
+		System.out.println("programId from default program inside service of coupon"+programId);
+		return getCouponsByProgramId(programId);
 	}
 }
  

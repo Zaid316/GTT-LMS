@@ -41,6 +41,8 @@ public class ProgramServiceImpl implements ProgramService {
 		program.setStatus(programRequest.isStatus());
         program.setStartDate(programRequest.getStartDate());
         program.setEndDate(programRequest.getEndDate());
+        program.setDefaultProgram(programRequest.isDefaultProgram());
+        System.out.println("default or not "+programRequest.isDefaultProgram());
 		return programRepository.save(program);
 	}
 

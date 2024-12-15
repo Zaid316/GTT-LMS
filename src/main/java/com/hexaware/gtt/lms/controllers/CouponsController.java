@@ -91,7 +91,9 @@ public class CouponsController {
 	
 	@GetMapping("/getStandaloneCouponsByPartner")
 	public ResponseEntity<List<CouponsResponseDto>> getStandaloneCouponsByPartner(@RequestParam("partner_id") UUID partnerId) throws ResourceNotFoundException{
+		System.out.println(partnerId);
 		List<Coupons> couponsList = this.couponsService.getStandaloneCoupons(partnerId);
+//		System.out.println("coupons"+couponsList);
 		List<CouponsResponseDto> couponsResponseDtoList=new ArrayList<>();
 		for(Coupons coupon : couponsList) {
 			CouponsResponseDto couponsResponseDto=this.modelMapper.map(coupon, CouponsResponseDto.class);
@@ -99,6 +101,7 @@ public class CouponsController {
 			couponsResponseDtoList.add(couponsResponseDto);
 			
 		}
+//		System.out.println("standalone coupons : "+couponsResponseDtoList);
 		return ResponseEntity.ok(couponsResponseDtoList);
 	}
 	

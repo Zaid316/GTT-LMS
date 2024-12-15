@@ -9,7 +9,7 @@ public class ProgramRequestDto {
 	private String programName;
 	 private UUID partnerId;
 	private boolean status;
-	private boolean isDefault;
+	private boolean defaultProgram;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private LocalDateTime startDate;
 	
@@ -21,16 +21,7 @@ public class ProgramRequestDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProgramRequestDto(String programName, UUID partnerId, boolean status, LocalDateTime startDate,
-			LocalDateTime endDate,boolean isDefault) {
-		super();
-		this.programName = programName;
-		this.partnerId = partnerId;
-		this.status = status;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.isDefault = isDefault;
-	}
+	
 
 	public String getProgramName() {
 		return programName;
@@ -72,21 +63,39 @@ public class ProgramRequestDto {
 		this.endDate = endDate;
 	}
 
-	public boolean isDefault() {
-		return isDefault;
+
+
+	public boolean isDefaultProgram() {
+		return defaultProgram;
 	}
 
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
+
+
+	public void setDefaultProgram(boolean defaultProgram) {
+		this.defaultProgram = defaultProgram;
 	}
+
+
+
+	public ProgramRequestDto(String programName, UUID partnerId, boolean status, boolean defaultProgram,
+			LocalDateTime startDate, LocalDateTime endDate) {
+		super();
+		this.programName = programName;
+		this.partnerId = partnerId;
+		this.status = status;
+		this.defaultProgram = defaultProgram;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+
+
 
 	@Override
 	public String toString() {
 		return "ProgramRequestDto [programName=" + programName + ", partnerId=" + partnerId + ", status=" + status
-				+ ", isDefault=" + isDefault + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+				+ ", defaultProgram=" + defaultProgram + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 
-	
 	
 
 }

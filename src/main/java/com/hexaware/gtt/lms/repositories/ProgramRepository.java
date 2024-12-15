@@ -15,9 +15,9 @@ public interface ProgramRepository  extends JpaRepository<Program, UUID>{
 
 	List<Program> findAllProgramByPartner(Partner partner);
 
-	 @Query("SELECT p.programId FROM Program p WHERE p.isDefault = false AND p.status = true AND p.partner.partnerId = :partnerId")
+	 @Query("SELECT p.programId FROM Program p WHERE p.defaultProgram = false AND p.status = true AND p.partner.partnerId = :partnerId")
 	    List<UUID> findCurrentProgram(@Param("partnerId") UUID partnerId);
 	 
-	 @Query("SELECT p.programId FROM Program p WHERE p.isDefault = true AND p.status = true AND p.partner.partnerId = :partnerId")
+	 @Query("SELECT p.programId FROM Program p WHERE p.defaultProgram = true AND p.status = true AND p.partner.partnerId = :partnerId")
 	    UUID findDefaultProgram(@Param("partnerId") UUID partnerId);
 }

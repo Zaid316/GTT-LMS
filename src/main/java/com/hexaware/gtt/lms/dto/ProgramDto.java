@@ -13,7 +13,7 @@ public class ProgramDto {
 	private String programName;
 	 private UUID partnerId;
 	private boolean status;
-	private boolean isDefault;
+	private boolean defaultProgram;
 	private List<Coupons> coupons;
 	private List<Offers> offers;
 
@@ -28,19 +28,7 @@ public class ProgramDto {
 	}
 	
 	
-	public ProgramDto(UUID programId, String programName, UUID partnerId, boolean status, List<Coupons> coupons,
-			List<Offers> offers, LocalDateTime startDate, LocalDateTime endDate, boolean isDefault) {
-		super();
-		this.programId = programId;
-		this.programName = programName;
-		this.partnerId = partnerId;
-		this.status = status;
-		this.coupons = coupons;
-		this.offers = offers;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.isDefault = isDefault;
-	}
+	
 
 
 	public UUID getProgramId() {
@@ -122,31 +110,36 @@ public class ProgramDto {
 		this.endDate = endDate;
 	}
 
-
-	public boolean isDefault() {
-		return isDefault;
+	public boolean isDefaultProgram() {
+		return defaultProgram;
 	}
 
 
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
-	}
 
+
+
+	public void setDefaultProgram(boolean defaultProgram) {
+		this.defaultProgram = defaultProgram;
+	}
+	public ProgramDto(UUID programId, String programName, UUID partnerId, boolean status, boolean defaultProgram,
+			List<Coupons> coupons, List<Offers> offers, LocalDateTime startDate, LocalDateTime endDate) {
+		super();
+		this.programId = programId;
+		this.programName = programName;
+		this.partnerId = partnerId;
+		this.status = status;
+		this.defaultProgram = defaultProgram;
+		this.coupons = coupons;
+		this.offers = offers;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
 
 	@Override
 	public String toString() {
 		return "ProgramDto [programId=" + programId + ", programName=" + programName + ", partnerId=" + partnerId
-				+ ", status=" + status + ", isDefault=" + isDefault + ", coupons=" + coupons + ", offers=" + offers
-				+ ", startDate=" + startDate + ", endDate=" + endDate + "]";
+				+ ", status=" + status + ", defaultProgram=" + defaultProgram + ", coupons=" + coupons + ", offers="
+				+ offers + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
-
-
-
-
-
-
-
-	
-	
 	
 }
