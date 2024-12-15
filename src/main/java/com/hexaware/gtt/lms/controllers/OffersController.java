@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.gtt.lms.dto.OffersDto;
 import com.hexaware.gtt.lms.dto.OffersResponseDto;
+import com.hexaware.gtt.lms.dto.TiersOffersDto;
 import com.hexaware.gtt.lms.entities.Offers;
 import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
 import com.hexaware.gtt.lms.services.OffersService;
@@ -100,6 +101,10 @@ public class OffersController {
 		return ResponseEntity.ok(s);
 	}
 	
+	@GetMapping("/getTierDetails")
+	public ResponseEntity<TiersOffersDto>getTierDetailsOfUser(@RequestParam UUID partnerId, Long UserId){
+		return ResponseEntity.ok(offersService.getTierDetailsOfUser(partnerId, UserId));
+	}
  
 }
  

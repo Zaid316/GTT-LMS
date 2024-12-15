@@ -20,5 +20,6 @@ public interface TiersRepository extends JpaRepository<Tiers, UUID> {
 
 	List<Tiers> findByPartner(Partner partner);
 
-
+	@Query("SELECT t FROM Tiers t WHERE t.triggerAmount > :triggerAmount ORDER BY t.triggerAmount ASC")
+	Tiers findNextTierByTriggerAmount(@Param("triggerAmount") Double triggerAmount);
 }

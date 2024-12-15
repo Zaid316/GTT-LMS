@@ -1,7 +1,6 @@
 package com.hexaware.gtt.lms.servicesImpl;
  
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -9,13 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.gtt.lms.dto.OffersDto;
+import com.hexaware.gtt.lms.dto.TiersOffersDto;
 import com.hexaware.gtt.lms.entities.Offers;
 import com.hexaware.gtt.lms.entities.Program;
 import com.hexaware.gtt.lms.entities.Tiers;
+import com.hexaware.gtt.lms.entities.Users;
 import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
 import com.hexaware.gtt.lms.repositories.OffersRepository;
 import com.hexaware.gtt.lms.repositories.ProgramRepository;
 import com.hexaware.gtt.lms.repositories.TiersRepository;
+import com.hexaware.gtt.lms.repositories.UserRepository;
 import com.hexaware.gtt.lms.services.OffersService;
 
 @Service
@@ -25,6 +27,8 @@ public class OffersServiceImpl implements OffersService {
     private TiersRepository tiersRepository;
     @Autowired
     private ProgramRepository programRepository;
+    @Autowired
+    private UserRepository userRepository;
     
     private ModelMapper modelMapper;
 
@@ -98,5 +102,29 @@ public class OffersServiceImpl implements OffersService {
 		List<Offers> offersList=  offersRepository.findOffersByProgramAndTier(programId, tierId);
 		return offersList.get(0);
 	}
+	
+	@Override
+	 public TiersOffersDto getTierDetailsOfUser(UUID partnerId,long userId ) {
+		 UUID uId=userRepository.findUIdByPartnerIdAndUserId(partnerId,userId);
+		 UUID tierId=userRepository.getTierByUId(uId);
+		 //Tiers tier =tiersRepository.findById(tierId).get();
+		 Users user=userRepository.findByUId(uId);
+		 Double totalPoints=user.getTotalPoints();
+		 String currentTierName=user.getTiers().getTierName();
+		 Double triggerAmount=user.getTiers().getTriggerAmount();
+		 Tiers nextTier=tiersRepository.findNextTierByTriggerAmount(triggerAmount);
+		 String nextTierName=nextTier.getTierName();
+		 Double nextTierTriggerAmount=nextTier.getTriggerAmount();
+		 Double pointsToNextTier=(nextTierTriggerAmount*nextTier.getAccrualMultiplier())-totalPoints;
+		 TiersOffersDto tiersOffersDto=new TiersOffersDto();
+		 tiersOffersDto.setCurrentTier(currentTierName);
+		 tiersOffersDto.setLeftPointsToReachNextTier(pointsToNextTier);
+		 tiersOffersDto.setNextTier(nextTierName);
+		 tiersOffersDto.setTotalPoints(totalPoints);
+		 return tiersOffersDto;
+		 
+	 }
+	 
+	
 }
  

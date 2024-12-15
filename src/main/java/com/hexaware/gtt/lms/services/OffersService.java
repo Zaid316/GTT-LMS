@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
  
 import com.hexaware.gtt.lms.dto.OffersDto;
+import com.hexaware.gtt.lms.dto.TiersOffersDto;
 import com.hexaware.gtt.lms.entities.Offers;
 import com.hexaware.gtt.lms.exception.ResourceNotFoundException;
  
@@ -16,6 +17,7 @@ public interface OffersService {
 	public Offers getOfferById(UUID offer_id)throws ResourceNotFoundException;
 	 public  List<Offers> getOfferByProgramId(UUID programId) throws ResourceNotFoundException;
 	public Offers getOfferByProgramIdAndTierId(UUID programId, UUID tierId);
+	public TiersOffersDto getTierDetailsOfUser(UUID partnerId,long userId );
 }
  
  
